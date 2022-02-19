@@ -1,0 +1,4 @@
+name: "BingoPlugin"
+author: "Syrows"
+version: "1.0.0"
+main: "com.github.syr0ws.bingo.BingoPlugin"
