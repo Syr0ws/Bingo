@@ -6,7 +6,9 @@ public interface GameGrid {
 
     Material getItem(int row, int column);
 
-    Material[][] get();
+    int[] getCoordinates(Material material);
+
+    boolean contains(Material material);
 
     int getSize();
 }

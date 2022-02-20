@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public interface Observable {
 
-    void notifyChange(ChangeType changeType);
+    void notifyChange(Change change);
 
     void addObserver(Observer observer);
 

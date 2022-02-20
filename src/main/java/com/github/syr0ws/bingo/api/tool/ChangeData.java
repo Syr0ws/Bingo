@@ -2,21 +2,9 @@ package com.github.syr0ws.bingo.api.tool;
 
 public interface ChangeData {
 
-    byte getByte(String key);
+    <T> void set(String key, Class<T> clazz, T object);
 
-    short getShort(String key);
+    <T> T get(String key, Class<T> clazz);
 
-    int getInt(String key);
-
-    long getLong(String key);
-
-    float getFloat(String key);
-
-    double getDouble(String key);
-
-    boolean getBoolean(String key);
-
-    String getString(String key);
-
-    <T> T getObject(String key, Class<T> clazz);
+    boolean has(String key);
 }
