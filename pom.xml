@@ -8,6 +8,11 @@
     <artifactId>Bingo</artifactId>
     <version>0.0.1</version>
 
+    <properties>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
+    </properties>
+
     <repositories>
         <repository>
             <id>spigot-repo</id>
