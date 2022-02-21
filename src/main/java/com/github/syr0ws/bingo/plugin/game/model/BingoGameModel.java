@@ -1,10 +1,10 @@
 package com.github.syr0ws.bingo.plugin.game.model;
 
 import com.github.syr0ws.bingo.api.game.model.*;
-import com.github.syr0ws.bingo.api.tool.ChangeData;
+import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
+import com.github.syr0ws.bingo.plugin.message.GameMessageType;
+import com.github.syr0ws.bingo.plugin.message.GameMessageUtil;
 import com.github.syr0ws.bingo.plugin.tool.AbstractObservable;
-import com.github.syr0ws.bingo.plugin.tool.CommonChange;
-import com.github.syr0ws.bingo.plugin.tool.CommonChangeData;
 import org.bukkit.Material;
 
 import java.util.*;
@@ -59,8 +59,10 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
     @Override
     public void addTime() {
+
         this.time++;
-        this.notifyChange(BingoGameModelChangeType.TIME, Integer.class, this.time);
+
+        GameMessageUtil.sendSimpleMessage(this, GameMessageType.GAME_TIME_CHANGE, GameMessageKey.TIME, Integer.class, this.time);
     }
 
     @Override
@@ -75,7 +77,8 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
             throw new IllegalStateException("GameState cannot be null.");
 
         this.state = state;
-        this.notifyChange(BingoGameModelChangeType.STATE, GameState.class, this.state);
+
+        GameMessageUtil.sendSimpleMessage(this, GameMessageType.GAME_STATE_CHANGE, GameMessageKey.GAME_STATE, GameState.class, this.state);
     }
 
     @Override
@@ -110,7 +113,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
         this.players.put(uuid, player);
         this.grids.put(uuid, grid);
 
-        this.notifyChange(BingoGameModelChangeType.ADD_PLAYER, GamePlayer.class, player);
+        GameMessageUtil.sendSimpleMessage(this, GameMessageType.ADD_PLAYER, GameMessageKey.PLAYER, GamePlayer.class, player);
     }
 
     @Override
@@ -127,7 +130,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
         this.players.remove(uuid);
         this.grids.remove(uuid);
 
-        this.notifyChange(BingoGameModelChangeType.REMOVE_PLAYER, GamePlayer.class, player);
+        GameMessageUtil.sendSimpleMessage(this, GameMessageType.REMOVE_PLAYER, GameMessageKey.PLAYER, GamePlayer.class, player);
     }
 
     @Override
@@ -144,15 +147,5 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
     @Override
     public Collection<GamePlayer> getPlayers() {
         return this.players.values();
-    }
-
-    private <T> void notifyChange(BingoGameModelChangeType type, Class<T> clazz, T object) {
-
-        ChangeData data = new CommonChangeData();
-        data.set(type.getKey(), clazz, object);
-
-        CommonChange change = new CommonChange(type, data);
-
-        this.notifyChange(change);
     }
 }

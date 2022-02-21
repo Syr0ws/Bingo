@@ -1,32 +1,23 @@
-package com.github.syr0ws.bingo.plugin.game.controller;
+package com.github.syr0ws.bingo.plugin.tool.controller;
 
-import com.github.syr0ws.bingo.api.game.Game;
+import com.github.syr0ws.bingo.api.game.controller.Controller;
 import com.github.syr0ws.bingo.api.game.controller.GameController;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-import java.util.HashSet;
-import java.util.Set;
-
-public abstract class AbstractController implements GameController {
+public abstract class AbstractController implements Controller {
 
     private final Plugin plugin;
-    private final GameModel model;
     private final ListenerManager manager;
     private boolean loaded;
 
-    public AbstractController(Plugin plugin, GameModel model) {
+    public AbstractController(Plugin plugin) {
 
         if(plugin == null)
             throw new IllegalArgumentException("Plugin cannot be null.");
 
-        if(model == null)
-            throw new IllegalArgumentException("GameModel cannot be null.");
-
         this.plugin = plugin;
-        this.model = model;
         this.manager = new ListenerManager(plugin);
     }
 
@@ -54,9 +45,5 @@ public abstract class AbstractController implements GameController {
 
     public Plugin getPlugin() {
         return this.plugin;
-    }
-
-    public GameModel getModel() {
-        return this.model;
     }
 }

@@ -4,39 +4,56 @@ import com.github.syr0ws.bingo.api.game.Game;
 import com.github.syr0ws.bingo.api.game.controller.GameController;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GameState;
-import com.github.syr0ws.bingo.api.tool.Change;
-import com.github.syr0ws.bingo.api.tool.ChangeData;
-import com.github.syr0ws.bingo.api.tool.ChangeType;
+import com.github.syr0ws.bingo.api.message.Message;
+import com.github.syr0ws.bingo.api.message.MessageData;
+import com.github.syr0ws.bingo.api.message.MessageType;
 import com.github.syr0ws.bingo.plugin.game.controller.BingoGameControllerFactory;
-import com.github.syr0ws.bingo.plugin.minigame.BingoMiniGameChangeType;
+import com.github.syr0ws.bingo.plugin.message.*;
 import com.github.syr0ws.bingo.plugin.tool.AbstractObservable;
-import com.github.syr0ws.bingo.plugin.tool.CommonChange;
-import com.github.syr0ws.bingo.plugin.tool.CommonChangeData;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Optional;
 
 public class BingoGame extends AbstractObservable implements Game {
 
     private final String id;
+    private final Plugin plugin;
     private GameModel model;
     private GameController controller;
 
-    public BingoGame(String id) {
+    public BingoGame(Plugin plugin, String id) {
+
+        if(plugin == null)
+            throw new IllegalArgumentException("Plugin cannot be null.");
 
         if(id == null || id.isEmpty())
             throw new IllegalArgumentException("Id cannot be null or empty.");
 
+        this.plugin = plugin;
         this.id = id;
     }
 
     @Override
-    public void load() {
+    public void onMessageReceiving(Message message) {
 
+        MessageType type = message.getType();
+        MessageData data = message.getData();
+
+        if(type == GameMessageType.CONTROLLER_DONE) {
+
+            this.setNextState();
+        }
+    }
+
+    @Override
+    public void load() {
+        this.setupModel();
+        this.setupController(GameState.WAITING);
     }
 
     @Override
     public void unload() {
-
+        this.unloadController();
     }
 
     @Override
@@ -46,24 +63,17 @@ public class BingoGame extends AbstractObservable implements Game {
 
     @Override
     public GameModel getModel() {
-        return null;
+        return this.model;
     }
 
     @Override
     public GameController getController() {
-        return null;
+        return this.controller;
     }
 
     @Override
-    public void onChange(Change change) {
-
-        ChangeType type = change.getType();
-        ChangeData data = change.getData();
-
-        if(type == BingoGameChangeType.DONE) {
-
-            this.setNextState();
-        }
+    public Plugin getPlugin() {
+        return this.plugin;
     }
 
     private void setNextState() {
@@ -71,32 +81,33 @@ public class BingoGame extends AbstractObservable implements Game {
         GameState current = this.model.getState();
         Optional<GameState> optional =  GameState.getNext(current);
 
-        // TODO To put in another method.
-        this.controller.unload();
-        this.controller = null;
+        // Unloading controller.
+        this.unloadController();
 
         if(optional.isPresent()) {
 
             GameState next = optional.get();
 
-            // TODO To put in another method.
-            this.controller = BingoGameControllerFactory.getController(next);
-            this.controller.load();
+            // Setting up controller for the new state.
+            this.setupController(next);
 
         } else {
 
-            ChangeType type = BingoMiniGameChangeType.GAME_FINISHED;
-
-            ChangeData data = new CommonChangeData();
-            data.set(type.getKey(), Game.class, this);
-
-            CommonChange change = new CommonChange(type, data);
-
-            super.notifyChange(change);
+            GameMessageUtil.sendSimpleMessage(this, GameMessageType.GAME_FINISHED, GameMessageKey.GAME, Game.class, this);
         }
     }
 
-    private void loadModel() {
+    private void unloadController() {
+        this.controller.unload();
+        this.controller = null; // Avoid reuse.
+    }
+
+    private void setupController(GameState state) {
+        this.controller = BingoGameControllerFactory.getController(this, state);
+        this.controller.load();
+    }
+
+    private void setupModel() {
 
     }
 }

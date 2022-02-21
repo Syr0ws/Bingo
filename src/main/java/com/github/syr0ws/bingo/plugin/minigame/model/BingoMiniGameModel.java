@@ -1,4 +1,4 @@
-package com.github.syr0ws.bingo.plugin.minigame;
+package com.github.syr0ws.bingo.plugin.minigame.model;
 
 import com.github.syr0ws.bingo.api.game.Game;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
@@ -42,12 +42,26 @@ public class BingoMiniGameModel implements MiniGameModel {
     }
 
     @Override
+    public boolean hasGame(UUID uuid) {
+        return this.games.stream()
+                .map(Game::getModel)
+                .anyMatch(model -> model.hasPlayer(uuid));
+    }
+
+    @Override
     public boolean hasGame(String id) {
 
         if(id == null || id.isEmpty())
             throw new IllegalArgumentException("Id cannot be null or empty.");
 
         return this.games.stream().anyMatch(game -> game.getId().equals(id));
+    }
+
+    @Override
+    public Optional<Game> getGame(UUID uuid) {
+        return this.games.stream()
+                .filter(game -> game.getModel().hasPlayer(uuid))
+                .findFirst();
     }
 
     @Override

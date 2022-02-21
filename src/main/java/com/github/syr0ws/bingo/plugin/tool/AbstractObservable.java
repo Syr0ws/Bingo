@@ -1,9 +1,8 @@
 package com.github.syr0ws.bingo.plugin.tool;
 
-import com.github.syr0ws.bingo.api.tool.Change;
-import com.github.syr0ws.bingo.api.tool.ChangeType;
-import com.github.syr0ws.bingo.api.tool.Observable;
-import com.github.syr0ws.bingo.api.tool.Observer;
+import com.github.syr0ws.bingo.api.message.Message;
+import com.github.syr0ws.bingo.api.message.Observable;
+import com.github.syr0ws.bingo.api.message.Observer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,8 +14,8 @@ public class AbstractObservable implements Observable {
     private final List<Observer> observers = new ArrayList<>();
 
     @Override
-    public void notifyChange(Change change) {
-        this.observers.forEach(observer -> observer.onChange(change));
+    public void sendAll(Message message) {
+        this.observers.forEach(observer -> observer.onMessageReceiving(message));
     }
 
     @Override

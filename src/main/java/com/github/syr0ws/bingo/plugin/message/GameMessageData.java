@@ -1,11 +1,11 @@
-package com.github.syr0ws.bingo.plugin.tool;
+package com.github.syr0ws.bingo.plugin.message;
 
-import com.github.syr0ws.bingo.api.tool.ChangeData;
+import com.github.syr0ws.bingo.api.message.MessageData;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommonChangeData implements ChangeData {
+public class GameMessageData implements MessageData {
 
     private final Map<String, Data<?>> objects = new HashMap<>();
 
@@ -54,7 +54,5 @@ public class CommonChangeData implements ChangeData {
         return this.objects.containsKey(key);
     }
 
-    private record Data<T>(Class<T> clazz, T object) {
-
-    }
+    private record Data<T>(Class<T> clazz, T object) {}
 }

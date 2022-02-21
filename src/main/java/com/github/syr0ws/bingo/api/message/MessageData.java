@@ -1,6 +1,6 @@
-package com.github.syr0ws.bingo.api.tool;
+package com.github.syr0ws.bingo.api.message;
 
-public interface ChangeData {
+public interface MessageData {
 
     <T> void set(String key, Class<T> clazz, T object);
 

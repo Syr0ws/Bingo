@@ -1,10 +1,10 @@
-package com.github.syr0ws.bingo.api.tool;
+package com.github.syr0ws.bingo.api.message;
 
 import java.util.Collection;
 
 public interface Observable {
 
-    void notifyChange(Change change);
+    void sendAll(Message message);
 
     void addObserver(Observer observer);
 

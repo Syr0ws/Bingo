@@ -4,6 +4,7 @@ import com.github.syr0ws.bingo.api.game.Game;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface MiniGameModel {
 
@@ -15,7 +16,11 @@ public interface MiniGameModel {
 
     void removeGame(Game game);
 
+    boolean hasGame(UUID uuid);
+
     boolean hasGame(String id);
+
+    Optional<Game> getGame(UUID uuid);
 
     Optional<Game> getGame(String id);
 
