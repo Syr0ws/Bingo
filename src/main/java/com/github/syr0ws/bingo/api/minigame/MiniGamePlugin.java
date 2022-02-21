@@ -1,6 +1,8 @@
 package com.github.syr0ws.bingo.api.minigame;
 
-public interface MiniGamePlugin {
+import org.bukkit.plugin.Plugin;
+
+public interface MiniGamePlugin extends Plugin {
 
     MiniGameModel getModel();
 
