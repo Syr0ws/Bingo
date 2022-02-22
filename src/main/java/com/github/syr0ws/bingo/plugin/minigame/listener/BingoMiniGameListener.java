@@ -4,27 +4,34 @@ import com.github.syr0ws.bingo.api.game.Game;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GamePlayer;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import com.github.syr0ws.bingo.plugin.game.model.BingoGamePlayer;
+import com.github.syr0ws.bingo.plugin.tool.Text;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public class BingoMiniGameListener implements Listener {
 
+    private final MiniGamePlugin plugin;
     private final MiniGameModel model;
 
-    public BingoMiniGameListener(MiniGameModel model) {
+    public BingoMiniGameListener(MiniGamePlugin plugin) {
 
-        if(model == null)
-            throw new IllegalArgumentException("MiniGameModel cannot be null.");
+        if(plugin == null)
+            throw new IllegalArgumentException("MiniGamePlugin cannot be null.");
 
-        this.model = model;
+        this.plugin = plugin;
+        this.model = plugin.getModel();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -65,5 +72,16 @@ public class BingoMiniGameListener implements Listener {
 
         Optional<GamePlayer> optionalPlayer = waitingGameModel.getPlayer(uuid);
         optionalPlayer.ifPresent(waitingGameModel::removePlayer);
+    }
+
+    @EventHandler
+    public void onPluginDisable(PluginDisableEvent event) {
+
+        Plugin plugin = event.getPlugin();
+
+        if(!plugin.equals(this.plugin)) return;
+
+        String message = Text.RESTART.get();
+        Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(message));
     }
 }

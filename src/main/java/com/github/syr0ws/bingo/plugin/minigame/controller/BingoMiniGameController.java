@@ -6,6 +6,7 @@ import com.github.syr0ws.bingo.api.message.MessageData;
 import com.github.syr0ws.bingo.api.message.MessageType;
 import com.github.syr0ws.bingo.api.minigame.MiniGameController;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import com.github.syr0ws.bingo.plugin.game.BingoGame;
 import com.github.syr0ws.bingo.plugin.message.GameMessage;
 import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
@@ -45,7 +46,7 @@ public class BingoMiniGameController extends AbstractController implements MiniG
 
     @Override
     public void registerListeners(ListenerManager manager) {
-        manager.registerListener(new BingoMiniGameListener(this.model));
+        manager.registerListener(new BingoMiniGameListener(this.getPlugin()));
     }
 
     @Override
@@ -63,6 +64,11 @@ public class BingoMiniGameController extends AbstractController implements MiniG
     public void onGameStop(Game game) {
         this.model.removeGame(game);
         game.unload();
+    }
+
+    @Override
+    public MiniGamePlugin getPlugin() {
+        return (MiniGamePlugin) super.getPlugin();
     }
 
     @Override

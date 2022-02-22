@@ -12,7 +12,9 @@ public enum Text {
     COLUMN_COMPLETE("&6%s &ea complété une colonne !"),
     DIAGONAL_COMPLETE("&6%s &ea complété une diagonale !"),
     PLAYER_BINGO_COMPLETE("&6%s &ea complété son bingo en entier !"),
-    PLAYER_WIN("&6%s &eremporte la partie !");
+    PLAYER_WIN("&6%s &eremporte la partie !"),
+    RESTART("&cLe serveur redémarre. Veuillez vous reconnecter."),
+    GAME_FINISHED("&cLa partie est terminée !");
 
     private final String text;
 
