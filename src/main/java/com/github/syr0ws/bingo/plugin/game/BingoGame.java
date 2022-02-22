@@ -76,6 +76,7 @@ public class BingoGame extends AbstractObservable implements Game {
     private void setupController(GameState state) {
         this.controller = BingoGameControllerFactory.getController(this, state);
         this.controller.load();
+        this.model.addObserver(this.controller);
     }
 
     private void setupModel() {
