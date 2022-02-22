@@ -13,6 +13,8 @@ public enum Text {
     DIAGONAL_COMPLETE("&6%s &ea complété une diagonale !"),
     PLAYER_BINGO_COMPLETE("&6%s &ea complété son bingo en entier !"),
     PLAYER_WIN("&6%s &eremporte la partie !"),
+    GAME_TIME_LEFT_MINUTE("&eIl reste &6%d minute%s &epour compléter votre bingo."),
+    GAME_TIME_LEFT_SECOND("&eIl reste &6%d seconde%s &epour compléter votre bingo."),
     RESTART("&cLe serveur redémarre. Veuillez vous reconnecter."),
     GAME_FINISHED("&cLa partie est terminée !");
 
