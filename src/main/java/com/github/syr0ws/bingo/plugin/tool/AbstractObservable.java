@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class AbstractObservable implements Observable {
+public abstract class AbstractObservable implements Observable {
 
     private final List<Observer> observers = new ArrayList<>();
 
