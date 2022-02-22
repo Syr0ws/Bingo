@@ -87,7 +87,7 @@ public class BingoGame extends AbstractObservable implements Game {
     private void setupModel() {
 
         GameGridGenerator generator = new DefaultGameGridGenerator();
-        GameGrid gameGrid = generator.generate(5, new ArrayList<>());
+        GameGrid gameGrid = generator.generate(2, new ArrayList<>()); // TODO To change.
 
         this.model = new BingoGameModel(gameGrid);
     }
