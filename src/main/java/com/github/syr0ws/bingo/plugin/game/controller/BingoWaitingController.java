@@ -1,20 +1,15 @@
 package com.github.syr0ws.bingo.plugin.game.controller;
 
 import com.github.syr0ws.bingo.api.game.Game;
-import com.github.syr0ws.bingo.api.game.controller.GameController;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GameState;
 import com.github.syr0ws.bingo.api.message.Message;
-import com.github.syr0ws.bingo.api.message.MessageData;
 import com.github.syr0ws.bingo.api.message.MessageType;
 import com.github.syr0ws.bingo.plugin.game.listener.GameWaitingListener;
-import com.github.syr0ws.bingo.plugin.message.GameMessage;
-import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
-import com.github.syr0ws.bingo.plugin.message.GameMessageUtil;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
 import com.github.syr0ws.bingo.plugin.tool.Task;
-import com.github.syr0ws.bingo.plugin.tool.controller.AbstractGameController;
+import com.github.syr0ws.bingo.plugin.controller.AbstractGameController;
 import org.bukkit.plugin.Plugin;
 
 public class BingoWaitingController extends AbstractGameController {

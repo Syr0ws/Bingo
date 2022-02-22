@@ -12,7 +12,7 @@ import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.minigame.listener.BingoMiniGameListener;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
-import com.github.syr0ws.bingo.plugin.tool.controller.AbstractController;
+import com.github.syr0ws.bingo.plugin.controller.AbstractController;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Optional;

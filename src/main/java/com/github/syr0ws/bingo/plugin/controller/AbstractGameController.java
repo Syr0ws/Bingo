@@ -1,4 +1,4 @@
-package com.github.syr0ws.bingo.plugin.tool.controller;
+package com.github.syr0ws.bingo.plugin.controller;
 
 import com.github.syr0ws.bingo.api.game.Game;
 import com.github.syr0ws.bingo.api.game.controller.GameController;

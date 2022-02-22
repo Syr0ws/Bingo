@@ -1,8 +1,6 @@
-package com.github.syr0ws.bingo.plugin.tool.controller;
+package com.github.syr0ws.bingo.plugin.controller;
 
 import com.github.syr0ws.bingo.api.game.controller.Controller;
-import com.github.syr0ws.bingo.api.game.controller.GameController;
-import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
 import org.bukkit.plugin.Plugin;
 

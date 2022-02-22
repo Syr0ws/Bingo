@@ -6,7 +6,7 @@ import com.github.syr0ws.bingo.api.game.model.GameState;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.plugin.game.listener.GameRunningListener;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
-import com.github.syr0ws.bingo.plugin.tool.controller.AbstractGameController;
+import com.github.syr0ws.bingo.plugin.controller.AbstractGameController;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 

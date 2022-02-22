@@ -10,7 +10,7 @@ import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
 import com.github.syr0ws.bingo.plugin.tool.Task;
 import com.github.syr0ws.bingo.plugin.tool.TeleportationTask;
-import com.github.syr0ws.bingo.plugin.tool.controller.AbstractGameController;
+import com.github.syr0ws.bingo.plugin.controller.AbstractGameController;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
