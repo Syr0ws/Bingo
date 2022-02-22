@@ -13,6 +13,8 @@ import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
 import com.github.syr0ws.bingo.plugin.controller.AbstractGameController;
+import com.github.syr0ws.bingo.plugin.tool.Text;
+import com.github.syr0ws.bingo.plugin.util.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -65,19 +67,27 @@ public class BingoRunningController extends AbstractGameController {
         this.handleItemFound(gamePlayer, lines);
     }
 
-    private void handleItemFound(GamePlayer player, Set<GridLine> lines) {
+    private void handleItemFound(GamePlayer gamePlayer, Set<GridLine> lines) {
 
         GameModel model = super.getGame().getModel();
 
-        model.getPlayers().forEach(gamePlayer -> gamePlayer.getPlayer().sendMessage(String.format("§6%s a trouvé un item !", player.getName())));
+        String itemFoundMessage = String.format(Text.ITEM_FOUND.get(), gamePlayer.getName());
 
-        if(lines.contains(GridLine.ROW))
-            model.getPlayers().forEach(gamePlayer -> gamePlayer.getPlayer().sendMessage(String.format("§6%s a complété une ligne !", player.getName())));
+        model.getOnlinePlayers().forEach(player -> player.sendMessage(itemFoundMessage));
 
-        if(lines.contains(GridLine.COLUMN))
-            model.getPlayers().forEach(gamePlayer -> gamePlayer.getPlayer().sendMessage(String.format("§6%s a complété une colonne !", player.getName())));
+        if(lines.contains(GridLine.ROW)) {
+            String message = String.format(Text.ROW_COMPLETE.get(), gamePlayer.getName());
+            model.getOnlinePlayers().forEach(player -> player.sendMessage(message));
+        }
 
-        if(lines.contains(GridLine.DIAGONAL))
-            model.getPlayers().forEach(gamePlayer -> gamePlayer.getPlayer().sendMessage(String.format("§6%s a complété une diagonale !", player.getName())));
+        if(lines.contains(GridLine.COLUMN)) {
+            String message = String.format(Text.COLUMN_COMPLETE.get(), gamePlayer.getName());
+            model.getOnlinePlayers().forEach(player -> player.sendMessage(message));
+        }
+
+        if(lines.contains(GridLine.DIAGONAL)) {
+            String message = String.format(Text.DIAGONAL_COMPLETE.get(), gamePlayer.getName());
+            model.getOnlinePlayers().forEach(player -> player.sendMessage(message));
+        }
     }
 }

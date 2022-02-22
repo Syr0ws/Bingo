@@ -6,7 +6,11 @@ public enum Text {
 
     BINGO_INVENTORY_TITLE("&6Bingo"),
     GAME_STARTING_IN("&eDébut dans &6%d&e."),
-    GAME_STARTED("&6Début de la partie !");
+    GAME_STARTED("&6Début de la partie !"),
+    ITEM_FOUND("&6%s &ea trouvé un item !"),
+    ROW_COMPLETE("&6%s &ea complété une ligne !"),
+    COLUMN_COMPLETE("&6%s &ea complété une colonne !"),
+    DIAGONAL_COMPLETE("&6%s &ea complété une diagonale !");
 
     private final String text;
 

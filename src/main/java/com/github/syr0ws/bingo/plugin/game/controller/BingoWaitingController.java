@@ -104,8 +104,7 @@ public class BingoWaitingController extends AbstractGameController {
 
                     // Magic values. Can't be changed without an appropriate API.
                     player.sendTitle(" ", message, 10, 70, 20);
-
-                    TextUtil.sendMessage(player, message);
+                    player.sendMessage(message);
                 });
 
                 this.time--;
@@ -120,8 +119,7 @@ public class BingoWaitingController extends AbstractGameController {
 
                     // Magic values. Can't be changed without an appropriate API.
                     player.sendTitle(" ", message, 10, 70, 20);
-
-                    TextUtil.sendMessage(player, message);
+                    player.sendMessage(message);
                 });
 
                 BingoWaitingController.super.sendDoneMessage();
