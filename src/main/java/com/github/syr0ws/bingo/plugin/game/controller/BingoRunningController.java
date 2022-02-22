@@ -123,6 +123,6 @@ public class BingoRunningController extends AbstractGameController {
             player.sendTitle(" ", bingoWinMessage, 10, 70, 20);
         });
 
-        super.sendDoneMessage();
+        Bukkit.getScheduler().runTask(super.getPlugin(), super::sendDoneMessage);
     }
 }
