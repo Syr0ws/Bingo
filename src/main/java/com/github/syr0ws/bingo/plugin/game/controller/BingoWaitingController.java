@@ -99,7 +99,14 @@ public class BingoWaitingController extends AbstractGameController {
             if(this.time != 0) {
 
                 String message = String.format(Text.GAME_STARTING_IN.get(), this.time);
-                model.getOnlinePlayers().forEach(player -> TextUtil.sendMessage(player, message));
+
+                model.getOnlinePlayers().forEach(player -> {
+
+                    // Magic values. Can't be changed without an appropriate API.
+                    player.sendTitle(" ", message, 10, 70, 20);
+
+                    TextUtil.sendMessage(player, message);
+                });
 
                 this.time--;
 
@@ -107,8 +114,15 @@ public class BingoWaitingController extends AbstractGameController {
 
                 this.stop();
 
-                String message = Text.GAME_STARTING_IN.get();
-                model.getOnlinePlayers().forEach(player -> TextUtil.sendMessage(player, message));
+                String message = Text.GAME_STARTED.get();
+
+                model.getOnlinePlayers().forEach(player -> {
+
+                    // Magic values. Can't be changed without an appropriate API.
+                    player.sendTitle(" ", message, 10, 70, 20);
+
+                    TextUtil.sendMessage(player, message);
+                });
 
                 BingoWaitingController.super.sendDoneMessage();
             }
