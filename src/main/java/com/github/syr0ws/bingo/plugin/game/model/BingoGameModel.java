@@ -10,7 +10,9 @@ import org.bukkit.Material;
 import java.util.*;
 
 public class BingoGameModel extends AbstractObservable implements GameModel {
+
     private int time;
+    private boolean starting;
 
     private final GameGrid grid;
 
@@ -53,6 +55,16 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
     @Override
     public boolean checkWinConditions() {
         return false;
+    }
+
+    @Override
+    public void setStarting(boolean starting) {
+        this.starting = starting;
+    }
+
+    @Override
+    public boolean isStarting() {
+        return this.starting;
     }
 
     @Override
