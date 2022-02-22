@@ -29,7 +29,6 @@ public class BingoRunningController extends AbstractGameController {
     @Override
     public void load() {
         super.load();
-        Bukkit.broadcastMessage("Running");
     }
 
     @Override
