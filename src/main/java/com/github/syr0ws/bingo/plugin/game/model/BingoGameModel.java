@@ -10,8 +10,6 @@ import org.bukkit.Material;
 import java.util.*;
 
 public class BingoGameModel extends AbstractObservable implements GameModel {
-
-    private GameState state;
     private int time;
 
     private final GameGrid grid;
@@ -22,11 +20,11 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
     public BingoGameModel(GameGrid grid) {
 
+        // TODO To fix.
         // if(grid == null)
         // throw new IllegalStateException("GameGrid cannot be null.");
 
         this.grid = grid;
-        this.state = GameState.WAITING;
         this.time = 0;
     }
 
@@ -68,22 +66,6 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
     @Override
     public int getTime() {
         return this.time;
-    }
-
-    @Override
-    public void setState(GameState state) {
-
-        if(state == null)
-            throw new IllegalStateException("GameState cannot be null.");
-
-        this.state = state;
-
-        GameMessageUtil.sendSimpleMessage(this, GameMessageType.GAME_STATE_CHANGE, GameMessageKey.GAME_STATE, GameState.class, this.state);
-    }
-
-    @Override
-    public GameState getState() {
-        return this.state;
     }
 
     @Override

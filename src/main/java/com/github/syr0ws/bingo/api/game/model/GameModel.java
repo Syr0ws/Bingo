@@ -18,10 +18,6 @@ public interface GameModel extends Observable {
 
     int getTime();
 
-    void setState(GameState state);
-
-    GameState getState();
-
     GameGrid getGrid();
 
     Optional<GamePlayerGrid> getPlayerGrid(UUID uuid);
