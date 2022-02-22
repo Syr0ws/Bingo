@@ -26,9 +26,8 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
     public BingoGameModel(GameGrid grid) {
 
-        // TODO To fix.
-        // if(grid == null)
-        // throw new IllegalStateException("GameGrid cannot be null.");
+        if(grid == null)
+          throw new IllegalStateException("GameGrid cannot be null.");
 
         this.grid = grid;
         this.time = 0;
@@ -115,7 +114,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
         if(this.hasPlayer(uuid))
             throw new IllegalArgumentException("Player must be added once.");
 
-        GamePlayerGrid grid = null; // TODO To change.
+        GamePlayerGrid grid = new BingoGamePlayerGrid(this.grid.getSize());
 
         this.players.put(uuid, player);
         this.grids.put(uuid, grid);
