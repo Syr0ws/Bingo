@@ -8,7 +8,6 @@ import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.message.GameMessageUtil;
 import com.github.syr0ws.bingo.plugin.tool.AbstractObservable;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
