@@ -46,7 +46,7 @@ public class CommandBingoTabCompleter implements TabCompleter {
         if(!player.hasPermission(Permission.COMMAND_BINGO_START.getPermission()))
             return completions;
 
-        if(args.length == 0)
+        if(args.length == 1)
             return Collections.singletonList("start");
 
         return completions;
@@ -59,10 +59,10 @@ public class CommandBingoTabCompleter implements TabCompleter {
         if(!player.hasPermission(Permission.COMMAND_BINGO_STOP.getPermission()))
             return completions;
 
-        if(args.length == 0)
+        if(args.length == 1)
             return Collections.singletonList("stop");
 
-        if(args.length != 1)
+        if(args.length != 2)
             return completions;
 
         Collection<Game> games = this.model.getGames();
