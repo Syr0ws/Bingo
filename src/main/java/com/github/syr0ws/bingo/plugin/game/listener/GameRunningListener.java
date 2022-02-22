@@ -44,7 +44,11 @@ public class GameRunningListener implements Listener {
             stack.setAmount(stack.getAmount() - 1);
             item.setItemStack(stack);
 
-        } else item.remove();
+        } else {
+
+            item.remove();
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
