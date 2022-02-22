@@ -19,6 +19,7 @@ public class BingoPlugin extends JavaPlugin implements MiniGamePlugin {
 
     @Override
     public void onEnable() {
+        super.saveDefaultConfig();
         this.setupModel();
         this.setupController();
         this.registerCommands();
