@@ -72,9 +72,9 @@ public class TeleportationTask extends Task {
 
     private void teleport(Player player) {
 
-        int x = (int) (this.radius * Math.cos(this.angle));
-        int z = (int) (this.radius * Math.sin(this.angle));
-        int y = this.world.getHighestBlockYAt(x, z);
+        double x = 0.5 + this.radius * Math.cos(this.angle);
+        double z = 0.5 + this.radius * Math.sin(this.angle);
+        int y = this.world.getHighestBlockYAt((int) x, (int) z);
 
         Location location = new Location(this.world, x, y, z);
 
