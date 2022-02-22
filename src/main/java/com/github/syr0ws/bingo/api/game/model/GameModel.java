@@ -39,5 +39,7 @@ public interface GameModel extends Observable {
 
     List<GamePlayer> getPlayers();
 
+    List<GamePlayer> getPlayersWithMostFoundItems();
+
     List<Player> getOnlinePlayers();
 }

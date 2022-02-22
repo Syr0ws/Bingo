@@ -182,6 +182,11 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
     }
 
     @Override
+    public List<GamePlayer> getPlayersWithMostFoundItems() {
+        return new ArrayList<>();
+    }
+
+    @Override
     public List<Player> getOnlinePlayers() {
         return this.players.values().stream()
                 .filter(GamePlayer::isOnline)

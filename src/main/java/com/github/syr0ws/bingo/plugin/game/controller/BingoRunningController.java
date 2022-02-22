@@ -18,6 +18,8 @@ import com.github.syr0ws.bingo.plugin.tool.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class BingoRunningController extends AbstractGameController {
@@ -144,7 +146,14 @@ public class BingoRunningController extends AbstractGameController {
 
     private void handleWin() {
 
-        // TODO To implement.
+        GameModel model = super.getGame().getModel();
+        List<GamePlayer> players = model.getPlayersWithMostFoundItems();
+
+        for(GamePlayer gamePlayer : players) {
+
+            String bingoWinMessage = String.format(Text.PLAYER_WIN.get(), gamePlayer.getName());
+            model.getOnlinePlayers().forEach(player -> player.sendMessage(bingoWinMessage));
+        }
 
         super.sendDoneMessage();
     }
