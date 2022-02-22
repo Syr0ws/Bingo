@@ -1,0 +1,30 @@
+# Messages of the '/bingo' command.
+command-bingo:
+  # Message sent when the player doesn't have the required permission to execute the command.
+  no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
+  # Message sent when the player is trying to do an action possible only if the game is started.
+  game-not-started: "&c>> La partie n'a pas encore commencé."
+  # Command '/bingo'.
+  grid:
+    # Message sent when the bingo grid is opened.
+    open: "&6>> &eVoici la grille à remplir."
+  # Command '/bingo start'.
+  start:
+    # Message sent when there is no waiting game.
+    no-waiting-game: "&c>> Aucune partie en attente."
+    # Message sent when the game is already starting.
+    already-started: "&c>> La partie est déjà en cours de lancement."
+    # Message sent when the game has been started.
+    starting: "&6>> &eLancement de la partie..."
+  # Command '/bingo stop'.
+  stop:
+    # Message sent when the specified game id is invalid.
+    invalid-game: "&c>> La partie spécifiée est invalide."
+    # Message sent when specified game has been stopped.
+    stopped: "&6>> &eArrêt de la partie."
+  # The usages of the command.
+  usages:
+    - "&6/bingo help &7pour voir la liste des commandes."
+    - "&6/bingo &7pour ouvrir la grille."
+    - "&6/bingo start &7pour lancer une partie."
+    - "&6/bingo stop &e<id> &7pour stopper la partie spécifiée."
