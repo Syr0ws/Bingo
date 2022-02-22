@@ -2,6 +2,7 @@ package com.github.syr0ws.bingo.plugin.commands;
 
 import com.github.syr0ws.bingo.api.game.Game;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
+import com.github.syr0ws.bingo.api.inventory.GameInventoryOpener;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
 import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import com.github.syr0ws.bingo.plugin.tool.Permission;
@@ -19,13 +20,18 @@ import java.util.Optional;
 public class CommandBingo implements CommandExecutor {
 
     private final MiniGamePlugin plugin;
+    private final GameInventoryOpener opener;
 
-    public CommandBingo(MiniGamePlugin plugin) {
+    public CommandBingo(MiniGamePlugin plugin, GameInventoryOpener opener) {
 
         if(plugin == null)
             throw new IllegalArgumentException("GamePlugin cannot be null.");
 
+        if(opener == null)
+            throw new IllegalArgumentException("GameInventoryOpener cannot be null.");
+
         this.plugin = plugin;
+        this.opener = opener;
     }
 
     @Override
@@ -68,7 +74,18 @@ public class CommandBingo implements CommandExecutor {
 
     private void onBingoGridCommand(Player player) {
 
+        MiniGameModel model = this.plugin.getModel();
+        Optional<Game> optional = model.getGame(player.getUniqueId());
 
+        if(optional.isEmpty()) {
+            this.sendMessage(player, Message.NOT_IN_GAME);
+            return;
+        }
+
+        Game game = optional.get();
+        GameModel gameModel = game.getModel();
+
+        this.opener.open(player, gameModel);
     }
 
     private void onStartCommand(Player player) {
@@ -153,6 +170,7 @@ public class CommandBingo implements CommandExecutor {
 
         NO_PERMISSION("no-permission"),
         NO_WAITING_GAME("no-waiting-game"),
+        NOT_IN_GAME("not-in-game"),
         INVALID_GAME("invalid-game"),
 
         ALREADY_STARTED("start.already-started"),
