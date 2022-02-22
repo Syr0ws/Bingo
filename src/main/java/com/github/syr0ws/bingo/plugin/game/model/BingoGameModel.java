@@ -1,10 +1,14 @@
 package com.github.syr0ws.bingo.plugin.game.model;
 
 import com.github.syr0ws.bingo.api.game.model.*;
+import com.github.syr0ws.bingo.api.message.Message;
+import com.github.syr0ws.bingo.api.message.MessageData;
+import com.github.syr0ws.bingo.plugin.message.GameMessage;
 import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.message.GameMessageUtil;
 import com.github.syr0ws.bingo.plugin.tool.AbstractObservable;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import java.util.*;
@@ -48,8 +52,17 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
         int[] coordinates = this.grid.getCoordinates(material);
         int row = coordinates[0], column = coordinates[1];
 
+        GamePlayer gamePlayer = this.players.get(uuid);
         GamePlayerGrid grid = this.grids.get(uuid);
-        grid.addFoundItem(row, column); // TODO Handle data.
+        Set<GridLine> lines = grid.addFoundItem(row, column);
+
+        Message message = new GameMessage(GameMessageType.ITEM_FOUND);
+
+        MessageData data = message.getData();
+        data.set(GameMessageKey.PLAYER.getKey(), GamePlayer.class, gamePlayer);
+        data.set(GameMessageKey.GRID_LINES.getKey(), Set.class, lines);
+
+        this.sendAll(message);
     }
 
     @Override
