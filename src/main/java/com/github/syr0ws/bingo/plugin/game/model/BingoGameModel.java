@@ -10,8 +10,10 @@ import com.github.syr0ws.bingo.plugin.message.GameMessageUtil;
 import com.github.syr0ws.bingo.plugin.tool.AbstractObservable;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BingoGameModel extends AbstractObservable implements GameModel {
 
@@ -157,5 +159,13 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
     @Override
     public List<GamePlayer> getPlayers() {
         return new ArrayList<>(this.players.values());
+    }
+
+    @Override
+    public List<Player> getOnlinePlayers() {
+        return this.players.values().stream()
+                .filter(GamePlayer::isOnline)
+                .map(GamePlayer::getPlayer)
+                .collect(Collectors.toList());
     }
 }

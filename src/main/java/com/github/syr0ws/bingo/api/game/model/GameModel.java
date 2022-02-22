@@ -2,6 +2,7 @@ package com.github.syr0ws.bingo.api.game.model;
 
 import com.github.syr0ws.bingo.api.message.Observable;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,4 +36,6 @@ public interface GameModel extends Observable {
     Optional<GamePlayer> getPlayer(UUID uuid);
 
     List<GamePlayer> getPlayers();
+
+    List<Player> getOnlinePlayers();
 }
