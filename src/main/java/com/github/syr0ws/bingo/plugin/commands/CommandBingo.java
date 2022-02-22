@@ -31,8 +31,6 @@ public class CommandBingo implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        ConfigurationSection section = this.getCommandSection();
-
         if(!(sender instanceof Player player)) {
             sender.sendMessage("You must be a player to use this command.");
             return true;
@@ -69,6 +67,7 @@ public class CommandBingo implements CommandExecutor {
     }
 
     private void onBingoGridCommand(Player player) {
+
 
     }
 
