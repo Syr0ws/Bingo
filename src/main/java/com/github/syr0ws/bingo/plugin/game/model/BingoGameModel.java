@@ -53,6 +53,10 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
         GamePlayer gamePlayer = this.players.get(uuid);
         GamePlayerGrid grid = this.grids.get(uuid);
+
+        // Checking if the item has been already found.
+        if(grid.isItemFound(row, column)) return;
+
         Set<GridLine> lines = grid.addFoundItem(row, column);
 
         Message message = new GameMessage(GameMessageType.ITEM_FOUND);
