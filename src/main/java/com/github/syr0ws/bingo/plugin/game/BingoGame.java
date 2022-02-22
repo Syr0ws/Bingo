@@ -8,6 +8,7 @@ import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageData;
 import com.github.syr0ws.bingo.api.message.MessageType;
 import com.github.syr0ws.bingo.plugin.game.controller.BingoGameControllerFactory;
+import com.github.syr0ws.bingo.plugin.game.model.BingoGameModel;
 import com.github.syr0ws.bingo.plugin.message.*;
 import com.github.syr0ws.bingo.plugin.tool.AbstractObservable;
 import org.bukkit.plugin.Plugin;
@@ -37,12 +38,8 @@ public class BingoGame extends AbstractObservable implements Game {
     public void onMessageReceiving(Message message) {
 
         MessageType type = message.getType();
-        MessageData data = message.getData();
 
-        if(type == GameMessageType.CONTROLLER_DONE) {
-
-            this.setNextState();
-        }
+        if(type == GameMessageType.CONTROLLER_DONE) this.setNextState();
     }
 
     @Override
@@ -76,9 +73,18 @@ public class BingoGame extends AbstractObservable implements Game {
         return this.plugin;
     }
 
+    private void setupController(GameState state) {
+        this.controller = BingoGameControllerFactory.getController(this, state);
+        this.controller.load();
+    }
+
+    private void setupModel() {
+        this.model = new BingoGameModel(null);
+    }
+
     private void setNextState() {
 
-        GameState current = this.model.getState();
+        GameState current = this.controller.getState();
         Optional<GameState> optional =  GameState.getNext(current);
 
         // Unloading controller.
@@ -100,14 +106,5 @@ public class BingoGame extends AbstractObservable implements Game {
     private void unloadController() {
         this.controller.unload();
         this.controller = null; // Avoid reuse.
-    }
-
-    private void setupController(GameState state) {
-        this.controller = BingoGameControllerFactory.getController(this, state);
-        this.controller.load();
-    }
-
-    private void setupModel() {
-
     }
 }

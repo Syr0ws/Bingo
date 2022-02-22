@@ -1,9 +1,10 @@
 package com.github.syr0ws.bingo.api.game.model;
 
-import com.github.syr0ws.bingo.api.tool.Observable;
+import com.github.syr0ws.bingo.api.message.Observable;
 import org.bukkit.Material;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,5 +34,5 @@ public interface GameModel extends Observable {
 
     Optional<GamePlayer> getPlayer(UUID uuid);
 
-    Collection<GamePlayer> getPlayers();
+    List<GamePlayer> getPlayers();
 }

@@ -2,3 +2,6 @@ name: "BingoPlugin"
 author: "Syrows"
 version: "1.0.0"
 main: "com.github.syr0ws.bingo.BingoPlugin"
+commands:
+  bingo:
+    description: "Manage the bingo mini game."

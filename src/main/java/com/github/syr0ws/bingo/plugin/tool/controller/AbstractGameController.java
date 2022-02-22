@@ -1,23 +1,38 @@
 package com.github.syr0ws.bingo.plugin.tool.controller;
 
+import com.github.syr0ws.bingo.api.game.Game;
 import com.github.syr0ws.bingo.api.game.controller.GameController;
-import com.github.syr0ws.bingo.api.game.model.GameModel;
+import com.github.syr0ws.bingo.api.message.Message;
+import com.github.syr0ws.bingo.api.message.MessageData;
+import com.github.syr0ws.bingo.plugin.message.GameMessage;
+import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
+import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import org.bukkit.plugin.Plugin;
 
 public abstract class AbstractGameController extends AbstractController implements GameController {
 
-    private final GameModel model;
+    private final Game game;
 
-    public AbstractGameController(Plugin plugin, GameModel model) {
+    public AbstractGameController(Plugin plugin, Game game) {
         super(plugin);
 
-        if(model == null)
-            throw new IllegalArgumentException("GameModel cannot be null.");
+        if(game == null)
+            throw new IllegalArgumentException("Game cannot be null.");
 
-        this.model = model;
+        this.game = game;
     }
 
-    public GameModel getModel() {
-        return this.model;
+    public Game getGame() {
+        return this.game;
+    }
+
+    protected void sendDoneMessage() {
+
+        Message message = new GameMessage(GameMessageType.CONTROLLER_DONE);
+
+        MessageData data = message.getData();
+        data.set(GameMessageKey.CONTROLLER.getKey(), GameController.class, this);
+
+        this.game.onMessageReceiving(message);
     }
 }

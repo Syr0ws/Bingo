@@ -7,6 +7,7 @@ import com.github.syr0ws.bingo.api.message.MessageType;
 import com.github.syr0ws.bingo.api.minigame.MiniGameController;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
 import com.github.syr0ws.bingo.plugin.game.BingoGame;
+import com.github.syr0ws.bingo.plugin.message.GameMessage;
 import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.minigame.listener.BingoMiniGameListener;
@@ -49,7 +50,12 @@ public class BingoMiniGameController extends AbstractController implements MiniG
 
     @Override
     public void onGameStart(Game game) {
+
         this.model.addGame(game);
+
+        Message message = new GameMessage(GameMessageType.START_GAME);
+        game.getController().onMessageReceiving(message);
+
         this.loadWaitingGame(); // Loading a new game.
     }
 

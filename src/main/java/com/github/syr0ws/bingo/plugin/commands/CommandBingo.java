@@ -15,11 +15,11 @@ import org.bukkit.plugin.Plugin;
 import java.util.Objects;
 import java.util.Optional;
 
-public class BingoCommand implements CommandExecutor {
+public class CommandBingo implements CommandExecutor {
 
     private final MiniGamePlugin plugin;
 
-    public BingoCommand(MiniGamePlugin plugin) {
+    public CommandBingo(MiniGamePlugin plugin) {
 
         if(plugin == null)
             throw new IllegalArgumentException("GamePlugin cannot be null.");
@@ -30,10 +30,8 @@ public class BingoCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        ConfigurationSection section = this.getCommandSection();
-
         if(!sender.hasPermission(Permission.COMMAND_BINGO.getPermission())) {
-            TextUtil.sendMessage(sender, section.getString("no-permission", ""));
+            TextUtil.sendMessage(sender, "&cVous n'avez pas la permission d'utiliser cette commande.");
             return true;
         }
 
@@ -52,35 +50,39 @@ public class BingoCommand implements CommandExecutor {
 
     private void sendUsages(CommandSender sender) {
 
+        TextUtil.sendMessage(sender, "&6/bingo &7pour voir la liste des commandes.");
+        TextUtil.sendMessage(sender, "&6/bingo start &7pour lancer une partie.");
+        TextUtil.sendMessage(sender, "&6/bingo stop &e<id> &7pour stopper la partie spécifiée.");
     }
 
     private void onStartCommand(CommandSender sender, String[] args) {
 
-        ConfigurationSection section = this.getCommandSection();
-
         if(!sender.hasPermission(Permission.COMMAND_BINGO_START.getPermission())) {
-            TextUtil.sendMessage(sender, section.getString("no-permission", ""));
+            TextUtil.sendMessage(sender, "&cVous n'avez pas la permission d'utiliser cette commande.");
             return;
         }
 
-        ConfigurationSection startSection = section.getConfigurationSection("start");
-
         MiniGameModel model = this.plugin.getModel();
-        Optional<Game> optional = model.getGame(sender.get)
+
+        Optional<Game> optional = model.getWaitingGame();
+
+        if(optional.isEmpty()) {
+            TextUtil.sendMessage(sender, "&cAucune partie en attente.");
+            return;
+        }
+
+        Game game = optional.get();
+
+        this.plugin.getController().onGameStart(game);
+
+        TextUtil.sendMessage(sender, "&6Lancement de la partie...");
     }
 
     private void onStopCommand(CommandSender sender, String[] args) {
 
-        ConfigurationSection section = this.getCommandSection();
-
         if(!sender.hasPermission(Permission.COMMAND_BINGO_STOP.getPermission())) {
-            TextUtil.sendMessage(sender, section.getString("no-permission", ""));
+            TextUtil.sendMessage(sender, "&cVous n'avez pas la permission d'utiliser cette commande.");
             return;
         }
-    }
-
-    private ConfigurationSection getCommandSection() {
-        FileConfiguration config = this.plugin.getConfig();
-        return config.getConfigurationSection("command-bingo");
     }
 }

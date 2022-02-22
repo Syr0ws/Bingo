@@ -22,8 +22,8 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
     public BingoGameModel(GameGrid grid) {
 
-        if(grid == null)
-            throw new IllegalStateException("GameGrid cannot be null.");
+        // if(grid == null)
+        // throw new IllegalStateException("GameGrid cannot be null.");
 
         this.grid = grid;
         this.state = GameState.WAITING;
@@ -145,7 +145,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
     }
 
     @Override
-    public Collection<GamePlayer> getPlayers() {
-        return this.players.values();
+    public List<GamePlayer> getPlayers() {
+        return new ArrayList<>(this.players.values());
     }
 }

@@ -11,20 +11,19 @@ public class BingoGameControllerFactory {
     public static GameController getController(Game game, GameState state) {
 
         Plugin plugin = game.getPlugin();
-        GameModel model = game.getModel();
 
         switch (state) {
             case WAITING -> {
-                return new BingoWaitingController(plugin, model);
+                return new BingoWaitingController(plugin, game);
             }
             case TELEPORTING -> {
-                return new BingoTeleportingController(plugin, model);
+                return new BingoTeleportingController(plugin, game);
             }
             case RUNNING -> {
-                return new BingoRunningController(plugin, model);
+                return new BingoRunningController(plugin, game);
             }
             case FINISHED -> {
-                return new BingoFinishedController(plugin, model);
+                return new BingoFinishedController(plugin, game);
             }
             default -> throw new IllegalArgumentException(String.format("No controller found for GameState %s.", state.name()));
         }
