@@ -5,7 +5,6 @@ import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.Observer;
 import com.github.syr0ws.bingo.plugin.message.GameMessage;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
-import com.github.syr0ws.bingo.plugin.tool.Task;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
