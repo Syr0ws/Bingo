@@ -3,19 +3,21 @@ package com.github.syr0ws.bingo.plugin.game;
 import com.github.syr0ws.bingo.api.game.Game;
 import com.github.syr0ws.bingo.api.game.controller.GameController;
 import com.github.syr0ws.bingo.api.game.model.GameGrid;
+import com.github.syr0ws.bingo.api.game.model.GameGridGenerator;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GameState;
 import com.github.syr0ws.bingo.api.message.Message;
-import com.github.syr0ws.bingo.api.message.MessageData;
 import com.github.syr0ws.bingo.api.message.MessageType;
 import com.github.syr0ws.bingo.plugin.game.controller.BingoGameControllerFactory;
-import com.github.syr0ws.bingo.plugin.game.model.BingoGameGrid;
 import com.github.syr0ws.bingo.plugin.game.model.BingoGameModel;
-import com.github.syr0ws.bingo.plugin.message.*;
+import com.github.syr0ws.bingo.plugin.game.model.DefaultGameGridGenerator;
+import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
+import com.github.syr0ws.bingo.plugin.message.GameMessageType;
+import com.github.syr0ws.bingo.plugin.message.GameMessageUtil;
 import com.github.syr0ws.bingo.plugin.tool.AbstractObservable;
-import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class BingoGame extends AbstractObservable implements Game {
@@ -84,15 +86,8 @@ public class BingoGame extends AbstractObservable implements Game {
 
     private void setupModel() {
 
-        // TODO To change.
-        Material[][] grid = new Material[2][2];
-
-        grid[0][0] = Material.STONE;
-        grid[0][1] = Material.DIAMOND;
-        grid[1][0] = Material.IRON_INGOT;
-        grid[1][1] = Material.IRON_SWORD;
-
-        GameGrid gameGrid = new BingoGameGrid(grid);
+        GameGridGenerator generator = new DefaultGameGridGenerator();
+        GameGrid gameGrid = generator.generate(5, new ArrayList<>());
 
         this.model = new BingoGameModel(gameGrid);
     }
