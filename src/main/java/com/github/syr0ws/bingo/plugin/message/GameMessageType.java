@@ -13,5 +13,6 @@ public enum GameMessageType implements MessageType {
     REMOVE_PLAYER,
     GAME_TIME_CHANGE,
     GAME_STATE_CHANGE,
-    ITEM_FOUND;
+    ITEM_FOUND,
+    WIN;
 }

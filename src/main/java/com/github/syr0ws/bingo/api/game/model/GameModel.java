@@ -13,6 +13,8 @@ public interface GameModel extends Observable {
 
     void setFoundItem(UUID uuid, Material material);
 
+    boolean hasWin(UUID uuid);
+
     boolean checkWinConditions();
 
     void setStarting(boolean starting);

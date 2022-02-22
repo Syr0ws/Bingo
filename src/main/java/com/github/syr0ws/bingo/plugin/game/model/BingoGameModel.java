@@ -61,18 +61,39 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
         Set<GridLine> lines = grid.addFoundItem(row, column);
 
-        Message message = new GameMessage(GameMessageType.ITEM_FOUND);
+        Message messageItemFound = new GameMessage(GameMessageType.ITEM_FOUND);
+        MessageData messageItemFoundData = messageItemFound.getData();
 
-        MessageData data = message.getData();
-        data.set(GameMessageKey.PLAYER.getKey(), GamePlayer.class, gamePlayer);
-        data.set(GameMessageKey.GRID_LINES.getKey(), Set.class, lines);
+        messageItemFoundData.set(GameMessageKey.PLAYER.getKey(), GamePlayer.class, gamePlayer);
+        messageItemFoundData.set(GameMessageKey.GRID_LINES.getKey(), Set.class, lines);
 
-        this.sendAll(message);
+        this.sendAll(messageItemFound);
+
+        if(this.hasWin(uuid)) {
+
+            Message messageWin = new GameMessage(GameMessageType.WIN);
+            MessageData messageWinData = messageWin.getData();
+
+            messageWinData.set(GameMessageKey.PLAYER.getKey(), GamePlayer.class, gamePlayer);
+
+            this.sendAll(messageWin);
+        }
+    }
+
+    @Override
+    public boolean hasWin(UUID uuid) {
+
+        GamePlayerGrid grid = this.grids.get(uuid);
+
+        int size = grid.getSize();
+        int found = grid.countFoundItems();
+
+        return size == found;
     }
 
     @Override
     public boolean checkWinConditions() {
-        return false;
+        return this.players.keySet().stream().anyMatch(this::hasWin);
     }
 
     @Override
