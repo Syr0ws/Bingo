@@ -57,7 +57,17 @@ public class BingoRunningController extends AbstractGameController {
         MessageType type = message.getType();
         MessageData data = message.getData();
 
-        if(type != GameMessageType.ITEM_FOUND) return;
+        if(type == GameMessageType.ITEM_FOUND) {
+
+            this.onMessageItemFound(data);
+
+        } else if(type == GameMessageType.WIN) {
+
+            this.onMessageWin(data);
+        }
+    }
+
+    private void onMessageItemFound(MessageData data) {
 
         GamePlayer gamePlayer = data.get(GameMessageKey.PLAYER.getKey(), GamePlayer.class);
 
@@ -65,6 +75,13 @@ public class BingoRunningController extends AbstractGameController {
         Set<GridLine> lines = data.get(GameMessageKey.GRID_LINES.getKey(), Set.class);
 
         this.handleItemFound(gamePlayer, lines);
+    }
+
+    private void onMessageWin(MessageData data) {
+
+        GamePlayer gamePlayer = data.get(GameMessageKey.PLAYER.getKey(), GamePlayer.class);
+
+        this.handleWin(gamePlayer);
     }
 
     private void handleItemFound(GamePlayer gamePlayer, Set<GridLine> lines) {
@@ -89,5 +106,23 @@ public class BingoRunningController extends AbstractGameController {
             String message = String.format(Text.DIAGONAL_COMPLETE.get(), gamePlayer.getName());
             model.getOnlinePlayers().forEach(player -> player.sendMessage(message));
         }
+    }
+
+    private void handleWin(GamePlayer winner) {
+
+        GameModel model = super.getGame().getModel();
+
+        String bingoCompleteMessage = String.format(Text.PLAYER_BINGO_COMPLETE.get(), winner.getName());
+        String bingoWinMessage = String.format(Text.PLAYER_WIN.get(), winner.getName());
+
+        model.getOnlinePlayers().forEach(player -> {
+
+            player.sendMessage(bingoCompleteMessage);
+
+            // Magic values. Can't be changed without an appropriate API.
+            player.sendTitle(" ", bingoWinMessage, 10, 70, 20);
+        });
+
+        super.sendDoneMessage();
     }
 }

@@ -10,7 +10,9 @@ public enum Text {
     ITEM_FOUND("&6%s &ea trouvé un item !"),
     ROW_COMPLETE("&6%s &ea complété une ligne !"),
     COLUMN_COMPLETE("&6%s &ea complété une colonne !"),
-    DIAGONAL_COMPLETE("&6%s &ea complété une diagonale !");
+    DIAGONAL_COMPLETE("&6%s &ea complété une diagonale !"),
+    PLAYER_BINGO_COMPLETE("&6%s &ea complété son bingo en entier !"),
+    PLAYER_WIN("&6%s &eremporte la partie !");
 
     private final String text;
 
