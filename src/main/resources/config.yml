@@ -4,6 +4,8 @@ command-bingo:
   no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
   # Message sent when there is no waiting game.
   no-waiting-game: "&c>> Aucune partie en attente."
+  # Message sent when the player is not in a running game.
+  not-in-game: "&c>> Vous n'êtes dans aucune partie en cours."
   # Message sent when the player is trying to do an action possible only if the game is started.
   game-not-started: "&c>> La partie n'a pas encore commencé."
   # Command '/bingo'.
