@@ -1,20 +1,21 @@
 package com.github.syr0ws.bingo.plugin.minigame.controller;
 
 import com.github.syr0ws.bingo.api.game.Game;
+import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageData;
 import com.github.syr0ws.bingo.api.message.MessageType;
 import com.github.syr0ws.bingo.api.minigame.MiniGameController;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
 import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
+import com.github.syr0ws.bingo.plugin.controller.AbstractController;
 import com.github.syr0ws.bingo.plugin.game.BingoGame;
 import com.github.syr0ws.bingo.plugin.message.GameMessage;
 import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.minigame.listener.BingoMiniGameListener;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
-import com.github.syr0ws.bingo.plugin.controller.AbstractController;
-import org.bukkit.plugin.Plugin;
+import com.github.syr0ws.bingo.plugin.tool.Text;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -62,13 +63,19 @@ public class BingoMiniGameController extends AbstractController implements MiniG
 
     @Override
     public void onGameStop(Game game) {
-        this.model.removeGame(game);
+
+        GameModel model = game.getModel();
+        model.getOnlinePlayers().forEach(player -> player.kickPlayer(Text.GAME_FINISHED.get()));
+
+        game.removeObserver(this);
         game.unload();
+
+        this.model.removeGame(game);
     }
 
     @Override
     public MiniGamePlugin getPlugin() {
-        return (MiniGamePlugin) super.getPlugin();
+        return super.getPlugin();
     }
 
     @Override
@@ -94,6 +101,7 @@ public class BingoMiniGameController extends AbstractController implements MiniG
         UUID uuid = UUID.randomUUID();
 
         BingoGame game = new BingoGame(super.getPlugin(), uuid.toString());
+        game.addObserver(this);
         game.load();
 
         this.model.setWaitingGame(game);
