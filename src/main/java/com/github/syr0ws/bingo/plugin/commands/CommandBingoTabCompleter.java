@@ -62,6 +62,7 @@ public class CommandBingoTabCompleter implements TabCompleter {
         if(args.length == 1)
             return Collections.singletonList("stop");
 
+        // Command '/bingo stop <id>'.
         if(!args[0].equalsIgnoreCase("stop") || args.length != 2)
             return completions;
 
