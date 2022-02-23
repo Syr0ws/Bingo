@@ -42,7 +42,7 @@ command-bingo:
 #################################################
 
 # The minimum number of players required to start a game.
-min-players: 2
+min-players: 1
 
 # The duration in seconds before starting a game.
 starting-duration: 3
