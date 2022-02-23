@@ -22,7 +22,6 @@ public class BingoPlugin extends JavaPlugin implements MiniGamePlugin {
 
     private MiniGameModel model;
     private MiniGameController controller;
-    private InventoryManager manager;
     private GameInventoryOpener inventory;
 
     @Override
@@ -67,8 +66,8 @@ public class BingoPlugin extends JavaPlugin implements MiniGamePlugin {
     }
 
     private void setupInventoryOpeners() {
-        this.manager = new InventoryManager(this);
-        this.inventory = new BingoInventoryOpener(this.manager);
+        InventoryManager manager = new InventoryManager(this);
+        this.inventory = new BingoInventoryOpener(manager);
     }
 
     @Override
