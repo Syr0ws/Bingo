@@ -74,11 +74,6 @@ public class BingoMiniGameController extends AbstractController implements MiniG
     }
 
     @Override
-    public MiniGamePlugin getPlugin() {
-        return super.getPlugin();
-    }
-
-    @Override
     public void onMessageReceiving(Message message) {
 
         MessageType type = message.getType();
