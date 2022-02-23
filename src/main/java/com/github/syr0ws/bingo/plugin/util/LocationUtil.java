@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class LocationUtils {
+public class LocationUtil {
 
     private static final List<Material> DANGEROUS_BLOCKS = Collections.singletonList(Material.LAVA);
 
@@ -66,7 +66,7 @@ public class LocationUtils {
 
         Location location = new Location(world, x, y, z, 180, 0);
 
-        LocationUtils.findNearestSafePlace(location);
+        LocationUtil.findNearestSafePlace(location);
 
         location.setY(location.getY() + 1);
 

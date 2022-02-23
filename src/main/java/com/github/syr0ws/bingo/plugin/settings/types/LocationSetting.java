@@ -2,7 +2,7 @@ package com.github.syr0ws.bingo.plugin.settings.types;
 
 import com.github.syr0ws.bingo.api.settings.SettingFilter;
 import com.github.syr0ws.bingo.api.settings.SettingValidationException;
-import com.github.syr0ws.bingo.plugin.util.LocationUtils;
+import com.github.syr0ws.bingo.plugin.util.LocationUtil;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -19,7 +19,7 @@ public class LocationSetting extends ConfigSetting<Location> {
         if(locSection == null)
             throw new SettingValidationException(String.format("Location not found at %s.%s", section.getName(), super.getPath()));
 
-        Location location = LocationUtils.getLocation(locSection);
+        Location location = LocationUtil.getLocation(locSection);
 
         super.setValue(location);
     }

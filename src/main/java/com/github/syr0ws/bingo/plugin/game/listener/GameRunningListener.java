@@ -5,7 +5,7 @@ import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
 import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import com.github.syr0ws.bingo.api.settings.GameSettings;
 import com.github.syr0ws.bingo.api.settings.MutableSetting;
-import com.github.syr0ws.bingo.plugin.util.LocationUtils;
+import com.github.syr0ws.bingo.plugin.util.LocationUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -98,7 +98,7 @@ public class GameRunningListener implements Listener {
 
         int radius = setting.getValue();
 
-        Location location = LocationUtils.findRandomLocation(player.getWorld(), radius);
+        Location location = LocationUtil.findRandomLocation(player.getWorld(), radius);
 
         event.setRespawnLocation(location);
     }
