@@ -21,9 +21,7 @@ import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.message.GameMessageUtil;
 import com.github.syr0ws.bingo.plugin.tool.AbstractObservable;
 import org.bukkit.Material;
-import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -125,6 +123,7 @@ public class BingoGame extends AbstractObservable implements Game {
         if(optional.isPresent()) {
 
             GameState state = optional.get();
+
             this.changeState(state);
 
         } else {

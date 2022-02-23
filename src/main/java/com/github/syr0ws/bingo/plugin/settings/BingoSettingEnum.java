@@ -2,7 +2,6 @@ package com.github.syr0ws.bingo.plugin.settings;
 
 import com.github.syr0ws.bingo.api.settings.Setting;
 import com.github.syr0ws.bingo.api.settings.SettingType;
-import com.github.syr0ws.bingo.plugin.settings.types.EnumSetting;
 import com.github.syr0ws.bingo.plugin.settings.types.LocationSetting;
 import com.github.syr0ws.bingo.plugin.settings.types.MaterialSetting;
 import com.github.syr0ws.bingo.plugin.settings.types.SimpleConfigSetting;
@@ -18,7 +17,7 @@ public enum BingoSettingEnum implements SettingType {
         public Setting<?> getSetting() {
             return new SimpleConfigSetting
                     .Builder<>("minPlayers", 2, "min-players", Integer.class)
-                    .withFilter(value -> value >= 2)
+                    .withFilter(value -> value >= 1)
                     .build();
         }
     },

@@ -36,6 +36,8 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
         this.grid = grid;
         this.settings = settings;
+
+        this.state = GameState.WAITING;
         this.time = 0;
     }
 

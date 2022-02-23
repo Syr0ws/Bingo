@@ -116,11 +116,12 @@ public class CommandBingo implements CommandExecutor {
         }
 
         // Starting the game.
-        try { this.plugin.getController().onGameStart(game);
-        } catch (GameException ignored) { this.sendMessage(player, Message.CANNOT_START_GAME); }
+        try {
 
-        // Sending a message.
-        this.sendMessage(player, Message.GAME_STARTING);
+            this.plugin.getController().onGameStart(game);
+            this.sendMessage(player, Message.GAME_STARTING);
+
+        } catch (GameException ignored) { this.sendMessage(player, Message.CANNOT_START_GAME); }
     }
 
     private void onStopCommand(Player player, String[] args) {
