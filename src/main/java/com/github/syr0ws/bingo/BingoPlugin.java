@@ -66,7 +66,10 @@ public class BingoPlugin extends JavaPlugin implements MiniGamePlugin {
     }
 
     private void setupInventoryOpeners() {
+
         InventoryManager manager = new InventoryManager(this);
+        manager.init();
+
         this.inventory = new BingoInventoryOpener(manager);
     }
 
