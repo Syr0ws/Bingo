@@ -5,14 +5,16 @@ import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GameState;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageType;
+import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
 import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
+import com.github.syr0ws.bingo.api.settings.GameSettings;
+import com.github.syr0ws.bingo.api.settings.MutableSetting;
+import com.github.syr0ws.bingo.plugin.controller.AbstractGameController;
 import com.github.syr0ws.bingo.plugin.game.listener.GameWaitingListener;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
 import com.github.syr0ws.bingo.plugin.tool.Task;
-import com.github.syr0ws.bingo.plugin.controller.AbstractGameController;
 import com.github.syr0ws.bingo.plugin.tool.Text;
-import com.github.syr0ws.bingo.plugin.util.TextUtil;
 import org.bukkit.plugin.Plugin;
 
 public class BingoWaitingController extends AbstractGameController {
@@ -56,7 +58,13 @@ public class BingoWaitingController extends AbstractGameController {
     }
 
     private void startStartingTask() {
-        this.task = new StartTask(super.getPlugin(), 3);
+
+        MiniGameModel miniGameModel = super.getPlugin().getModel();
+
+        GameSettings settings = miniGameModel.getSettings();
+        MutableSetting<Integer> setting = settings.getStartingDurationSetting();
+
+        this.task = new StartTask(super.getPlugin(), setting.getValue());
         this.task.start();
     }
 

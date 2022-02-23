@@ -5,16 +5,18 @@ import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GameState;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageType;
+import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
 import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
+import com.github.syr0ws.bingo.api.settings.GameSettings;
+import com.github.syr0ws.bingo.api.settings.MutableSetting;
+import com.github.syr0ws.bingo.plugin.controller.AbstractGameController;
 import com.github.syr0ws.bingo.plugin.game.listener.GameTeleportingListener;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
 import com.github.syr0ws.bingo.plugin.tool.Task;
 import com.github.syr0ws.bingo.plugin.tool.TeleportationTask;
-import com.github.syr0ws.bingo.plugin.controller.AbstractGameController;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.plugin.Plugin;
 
 public class BingoTeleportingController extends AbstractGameController {
 
@@ -62,7 +64,14 @@ public class BingoTeleportingController extends AbstractGameController {
         GameModel model = super.getGame().getModel();
         World world = Bukkit.getWorld("world");
 
-        this.task = new TeleportationTask(super.getPlugin(), this, model.getPlayers(), world, 150);
+        MiniGameModel miniGameModel = super.getPlugin().getModel();
+
+        GameSettings settings = miniGameModel.getSettings();
+        MutableSetting<Integer> setting = settings.getTeleportationRadiusSetting();
+
+        int radius = setting.getValue();
+
+        this.task = new TeleportationTask(super.getPlugin(), this, model.getPlayers(), world, radius);
         this.task.start();
     }
 
