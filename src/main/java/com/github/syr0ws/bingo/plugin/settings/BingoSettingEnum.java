@@ -28,7 +28,7 @@ public enum BingoSettingEnum implements SettingType {
         public Setting<?> getSetting() {
             return new SimpleConfigSetting
                     .Builder<>("startingDuration", 150, "starting-duration", Integer.class)
-                    .withFilter(value -> value > 10)
+                    .withFilter(value -> value >= 0)
                     .build();
         }
     },
