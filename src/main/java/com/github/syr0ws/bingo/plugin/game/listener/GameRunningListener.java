@@ -5,6 +5,8 @@ import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
 import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import com.github.syr0ws.bingo.api.settings.GameSettings;
 import com.github.syr0ws.bingo.api.settings.MutableSetting;
+import com.github.syr0ws.bingo.plugin.util.LocationUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -15,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
@@ -79,6 +82,25 @@ public class GameRunningListener implements Listener {
             event.setCurrentItem(item);
 
         } else event.setCurrentItem(null);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+
+        Player player = event.getPlayer();
+
+        if(!this.model.hasPlayer(player.getUniqueId())) return;
+
+        MiniGameModel miniGameModel = this.plugin.getModel();
+
+        GameSettings settings = miniGameModel.getSettings();
+        MutableSetting<Integer> setting = settings.getTeleportationRadiusSetting();
+
+        int radius = setting.getValue();
+
+        Location location = LocationUtils.findRandomLocation(player.getWorld(), radius);
+
+        event.setRespawnLocation(location);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
