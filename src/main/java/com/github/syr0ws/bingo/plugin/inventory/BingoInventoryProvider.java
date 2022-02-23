@@ -34,6 +34,7 @@ public class BingoInventoryProvider implements InventoryProvider {
 
         int size = this.gameGrid.getSize();
 
+        // Adding all the items of the grid into the inventory.
         for(int row = 0; row < size; row++) {
 
             for(int column = 0; column < size; column++) {
@@ -41,6 +42,7 @@ public class BingoInventoryProvider implements InventoryProvider {
                 Material material = this.gameGrid.getItem(row, column);
                 ItemStack item = new ItemStack(material);
 
+                // If the current item has been found by the player, enchanting it.
                 if(this.playerGrid.isItemFound(row, column)) {
 
                     ItemMeta meta = item.getItemMeta();

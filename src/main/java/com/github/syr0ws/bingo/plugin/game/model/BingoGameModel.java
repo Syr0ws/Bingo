@@ -65,8 +65,8 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
         if(grid.isItemFound(row, column)) return false;
 
         Set<GridLine> lines = grid.addFoundItem(row, column);
-        int foundItems = grid.countFoundItems();
 
+        // Sending ITEM_FOUND message.
         Message messageItemFound = new GameMessage(GameMessageType.ITEM_FOUND);
         MessageData messageItemFoundData = messageItemFound.getData();
 
@@ -78,6 +78,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
         if(this.hasWin(uuid)) {
 
+            // Sending WIN message.
             Message messageWin = new GameMessage(GameMessageType.WIN);
             MessageData messageWinData = messageWin.getData();
 
@@ -94,6 +95,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
         if(!this.hasPlayer(uuid))
             throw new NullPointerException("GamePlayer not found.");
 
+        // Player has win if he completed all the required lines.
         MutableSetting<Integer> setting = this.settings.getLinesToCompleteSetting();
 
         PlayerData data = this.data.get(uuid);
@@ -119,9 +121,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
     @Override
     public void addTime() {
-
         this.time++;
-
         GameMessageUtil.sendSimpleMessage(this, GameMessageType.GAME_TIME_CHANGE, GameMessageKey.TIME, Integer.class, this.time);
     }
 

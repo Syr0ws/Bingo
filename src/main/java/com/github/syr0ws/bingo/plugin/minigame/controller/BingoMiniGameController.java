@@ -70,7 +70,7 @@ public class BingoMiniGameController extends AbstractController implements MiniG
         game.removeObserver(this);
         game.unload();
 
-        this.model.removeGame(game);
+        this.model.removeGame(game); // Removing game.
     }
 
     @Override
@@ -82,12 +82,12 @@ public class BingoMiniGameController extends AbstractController implements MiniG
         if(type == GameMessageType.GAME_STARTED) {
 
             Game game = data.get(GameMessageKey.GAME.getKey(), Game.class);
-            this.onGameStart(game);
+            this.onGameStart(game); // Starting the game.
 
         } else if(type == GameMessageType.GAME_FINISHED) {
 
             Game game = data.get(GameMessageKey.GAME.getKey(), Game.class);
-            this.onGameStop(game);
+            this.onGameStop(game); // Stopping the game.
         }
     }
 
@@ -96,6 +96,7 @@ public class BingoMiniGameController extends AbstractController implements MiniG
         UUID uuid = UUID.randomUUID();
 
         BingoGame game = new BingoGame(super.getPlugin(), uuid.toString());
+
         game.addObserver(this);
         game.load();
 

@@ -115,8 +115,10 @@ public class GameRunningListener implements Listener {
         GameSettings settings = miniGameModel.getSettings();
         MutableSetting<Integer> setting = settings.getInvincibilityDurationSetting();
 
+        // Checking time.
         if(this.model.getTime() > setting.getValue()) return;
 
+        // Checking if the model contains the player.
         if(this.model.hasPlayer(player.getUniqueId())) event.setCancelled(true);
     }
 

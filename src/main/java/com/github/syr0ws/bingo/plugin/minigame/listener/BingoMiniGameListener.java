@@ -53,6 +53,7 @@ public class BingoMiniGameListener implements Listener {
 
         GamePlayer gamePlayer = new BingoGamePlayer(player);
 
+        // Adding player to the waiting game.
         waitingGameModel.addPlayer(gamePlayer);
     }
 
@@ -70,6 +71,7 @@ public class BingoMiniGameListener implements Listener {
         Game waitingGame = optional.get();
         GameModel waitingGameModel = waitingGame.getModel();
 
+        // If it exists, removing player from the waiting game.
         Optional<GamePlayer> optionalPlayer = waitingGameModel.getPlayer(uuid);
         optionalPlayer.ifPresent(waitingGameModel::removePlayer);
     }
@@ -82,6 +84,8 @@ public class BingoMiniGameListener implements Listener {
         if(!plugin.equals(this.plugin)) return;
 
         String message = Text.RESTART.get();
+
+        // Kicking all the online players.
         Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer(message));
     }
 }
