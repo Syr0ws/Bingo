@@ -62,7 +62,7 @@ public class CommandBingoTabCompleter implements TabCompleter {
         if(args.length == 1)
             return Collections.singletonList("stop");
 
-        if(args.length != 2)
+        if(!args[0].equalsIgnoreCase("stop") || args.length != 2)
             return completions;
 
         Collection<Game> games = this.model.getGames();
