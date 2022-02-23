@@ -7,9 +7,9 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class LocationUtils {
 
@@ -54,5 +54,22 @@ public class LocationUtils {
             x = !x;
             z = !z;
         }
+    }
+
+    public static Location findRandomLocation(World world, int radius) {
+
+        Random random = new Random();
+
+        double x = random.nextInt(radius + 1) + 0.5;
+        double z = random.nextInt(radius + 1) + 0.5;
+        int y = world.getHighestBlockYAt((int) x, (int) z);
+
+        Location location = new Location(world, x, y, z, 180, 0);
+
+        LocationUtils.findNearestSafePlace(location);
+
+        location.setY(location.getY() + 1);
+
+        return location;
     }
 }
