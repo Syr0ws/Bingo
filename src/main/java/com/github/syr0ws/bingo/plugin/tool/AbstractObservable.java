@@ -15,7 +15,7 @@ public abstract class AbstractObservable implements Observable {
 
     @Override
     public void sendAll(Message message) {
-        this.observers.forEach(observer -> observer.onMessageReceiving(message));
+        new ArrayList<>(this.observers).forEach(observer -> observer.onMessageReceiving(message));
     }
 
     @Override
