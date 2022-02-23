@@ -10,6 +10,8 @@ import java.util.Random;
 
 public class DefaultGameGridGenerator implements GameGridGenerator {
 
+    public static final int DEFAULT_GRID_SIZE = 5;
+
     private static final Random RANDOM = new Random();
 
     @Override

@@ -98,7 +98,7 @@ public class BingoGame extends AbstractObservable implements Game {
         MutableSetting<List<Material>> setting = settings.getBannedItems();
 
         GameGridGenerator generator = new DefaultGameGridGenerator();
-        GameGrid gameGrid = generator.generate(2, setting.getValue());
+        GameGrid gameGrid = generator.generate(DefaultGameGridGenerator.DEFAULT_GRID_SIZE, setting.getValue());
 
         this.model = new BingoGameModel(gameGrid);
     }
