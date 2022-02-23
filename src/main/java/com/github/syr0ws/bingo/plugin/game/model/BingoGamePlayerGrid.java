@@ -9,6 +9,7 @@ import java.util.Set;
 public class BingoGamePlayerGrid implements GamePlayerGrid {
 
     private final boolean[][] grid;
+    private int completedLines;
 
     public BingoGamePlayerGrid(int size) {
 
@@ -31,7 +32,11 @@ public class BingoGamePlayerGrid implements GamePlayerGrid {
 
         this.grid[row][column] = true;
 
-        return this.getCompletedLines(row, column);
+        Set<GridLine> lines = this.getCompletedLines(row, column);
+
+        this.completedLines += lines.size();
+
+        return lines;
     }
 
     @Override
@@ -46,6 +51,11 @@ public class BingoGamePlayerGrid implements GamePlayerGrid {
             throw new IllegalArgumentException(String.format("Column must be between 0 and %d.", size));
 
         return this.grid[row][column];
+    }
+
+    @Override
+    public int countCompletedLines() {
+        return this.completedLines;
     }
 
     @Override

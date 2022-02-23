@@ -53,6 +53,16 @@ public enum BingoSettingEnum implements SettingType {
         }
     },
 
+    LINES_TO_COMPLETE {
+        @Override
+        public Setting<?> getSetting() {
+            return new SimpleConfigSetting
+                    .Builder<>("linesToComplete", 12, "lines-to-complete", Integer.class)
+                    .withFilter(value -> value > 0 && value <= 12)
+                    .build();
+        }
+    },
+
     GAME_SPAWN {
         @Override
         public Setting<?> getSetting() {

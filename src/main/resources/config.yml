@@ -54,6 +54,9 @@ invincibility-duration: 10
 # The radius in which teleport players when the game is starting or when a player dies.
 teleportation-radius: 150
 
+# The number of lines to complete in a bingo grid.
+lines-to-complete: 12
+
 # The spawn of the game when it is waiting.
 spawn:
   x: 0.5

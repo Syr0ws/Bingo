@@ -3,6 +3,8 @@ package com.github.syr0ws.bingo.plugin.game.model;
 import com.github.syr0ws.bingo.api.game.model.*;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageData;
+import com.github.syr0ws.bingo.api.settings.GameSettings;
+import com.github.syr0ws.bingo.api.settings.MutableSetting;
 import com.github.syr0ws.bingo.plugin.message.GameMessage;
 import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
@@ -20,14 +22,19 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
     private boolean starting;
 
     private final GameGrid grid;
+    private final GameSettings settings;
     private final Map<UUID, PlayerData> data = new HashMap<>();
 
-    public BingoGameModel(GameGrid grid) {
+    public BingoGameModel(GameGrid grid, GameSettings settings) {
 
         if(grid == null)
           throw new IllegalStateException("GameGrid cannot be null.");
 
+        if(settings == null)
+            throw new IllegalArgumentException("GameSettings cannot be null.");
+
         this.grid = grid;
+        this.settings = settings;
         this.time = 0;
     }
 
@@ -65,7 +72,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
         messageItemFoundData.set(GameMessageKey.PLAYER.getKey(), GamePlayer.class, gamePlayer);
         messageItemFoundData.set(GameMessageKey.GRID_LINES.getKey(), Set.class, lines);
-        messageItemFoundData.set(GameMessageKey.ITEMS_FOUND.getKey(), Integer.class, foundItems);
+        messageItemFoundData.set(GameMessageKey.PLAYER_GRID.getKey(), GamePlayerGrid.class, grid);
 
         this.sendAll(messageItemFound);
 
@@ -87,13 +94,12 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
         if(!this.hasPlayer(uuid))
             throw new NullPointerException("GamePlayer not found.");
 
+        MutableSetting<Integer> setting = this.settings.getLinesToCompleteSetting();
+
         PlayerData data = this.data.get(uuid);
         GamePlayerGrid grid = data.grid();
 
-        int items = this.grid.countItems();
-        int found = grid.countFoundItems();
-
-        return items == found;
+        return setting.getValue() == grid.countCompletedLines();
     }
 
     @Override

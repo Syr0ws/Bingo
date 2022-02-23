@@ -15,6 +15,8 @@ public interface GameSettings {
 
     MutableSetting<Integer> getInvincibilityDurationSetting();
 
+    MutableSetting<Integer> getLinesToCompleteSetting();
+
     MutableSetting<Integer> getMinPlayerSetting();
 
     MutableSetting<Location> getGameSpawnSetting();

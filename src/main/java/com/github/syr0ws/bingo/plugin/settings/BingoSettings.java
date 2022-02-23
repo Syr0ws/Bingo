@@ -1,9 +1,6 @@
 package com.github.syr0ws.bingo.plugin.settings;
 
-import com.github.syr0ws.bingo.api.settings.GameSettings;
-import com.github.syr0ws.bingo.api.settings.MutableSetting;
-import com.github.syr0ws.bingo.api.settings.SettingLoader;
-import com.github.syr0ws.bingo.api.settings.SettingManager;
+import com.github.syr0ws.bingo.api.settings.*;
 import com.github.syr0ws.bingo.plugin.settings.dao.ConfigSettingLoader;
 import com.github.syr0ws.bingo.plugin.settings.types.LocationSetting;
 import com.github.syr0ws.bingo.plugin.settings.types.MaterialSetting;
@@ -57,6 +54,11 @@ public class BingoSettings implements GameSettings {
     @Override
     public MutableSetting<Integer> getInvincibilityDurationSetting() {
         return this.manager.getGenericSetting(BingoSettingEnum.INVINCIBILITY_DURATION, Integer.class);
+    }
+
+    @Override
+    public MutableSetting<Integer> getLinesToCompleteSetting() {
+        return this.manager.getGenericSetting(BingoSettingEnum.LINES_TO_COMPLETE, Integer.class);
     }
 
     @Override
