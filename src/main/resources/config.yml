@@ -5,35 +5,35 @@
 # Messages of the '/bingo' command.
 command-bingo:
   # Message sent when the player doesn't have the required permission to execute the command.
-  no-permission: "&c>> Vous n'avez pas la permission d'utiliser cette commande."
+  no-permission: "&c>> You don't have the permission to execute this command."
   # Message sent when there is no waiting game.
-  no-waiting-game: "&c>> Aucune partie en attente."
+  no-waiting-game: "&c>> No waiting game."
   # Message sent when the player is not in a running game.
-  not-in-game: "&c>> Vous n'êtes dans aucune partie en cours."
+  not-in-game: "&c>> You're not in a running game."
   # Message sent when the player is trying to do an action possible only if the game is started.
-  game-not-started: "&c>> La partie n'a pas encore commencé."
+  game-not-started: "&c>> Game not started."
   # Command '/bingo'.
   grid:
     # Message sent when the bingo grid is opened.
-    open: "&6>> &eVoici la grille à remplir."
+    open: "&6>> &eHere is the bingo grid."
   # Command '/bingo start'.
   start:
     # Message sent when the game is already starting.
-    already-started: "&c>> La partie est déjà en cours de lancement."
+    already-started: "&c>> The game is already starting.."
     # Message sent when the game has been started.
-    starting: "&6>> &eLancement de la partie..."
+    starting: "&6>> &eStarting the game..."
   # Command '/bingo stop'.
   stop:
     # Message sent when the specified game id is invalid.
-    invalid-game: "&c>> La partie spécifiée est invalide."
+    invalid-game: "&c>> Game specified not found."
     # Message sent when specified game has been stopped.
-    stopped: "&6>> &eArrêt de la partie."
+    stopped: "&6>> &eStopping the specified game."
   # The usages of the command.
   usages:
-    - "&6/bingo help &7pour voir la liste des commandes."
-    - "&6/bingo &7pour ouvrir la grille."
-    - "&6/bingo start &7pour lancer une partie."
-    - "&6/bingo stop &e<id> &7pour stopper la partie spécifiée."
+    - "&6/bingo help &7to see the list of commands."
+    - "&6/bingo &7to open the grid."
+    - "&6/bingo start &7to start a game."
+    - "&6/bingo stop &e<id> &7to stop the specified game."
 
 #################################################
 ###                SETTINGS                   ###
