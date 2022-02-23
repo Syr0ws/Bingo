@@ -11,4 +11,6 @@ public interface GameGrid {
     boolean contains(Material material);
 
     int getSize();
+
+    int countItems();
 }
