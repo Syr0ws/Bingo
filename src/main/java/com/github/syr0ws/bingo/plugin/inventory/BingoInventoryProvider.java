@@ -6,8 +6,11 @@ import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class BingoInventoryProvider implements InventoryProvider {
 
@@ -35,8 +38,16 @@ public class BingoInventoryProvider implements InventoryProvider {
 
             for(int column = 0; column < size; column++) {
 
-                Material material = this.playerGrid.isItemFound(row, column) ? Material.AIR : this.gameGrid.getItem(row, column);
+                Material material = this.gameGrid.getItem(row, column);
                 ItemStack item = new ItemStack(material);
+
+                if(this.playerGrid.isItemFound(row, column)) {
+
+                    ItemMeta meta = item.getItemMeta();
+                    meta.addEnchant(Enchantment.DURABILITY, 1, false);
+                    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                    item.setItemMeta(meta);
+                }
 
                 ClickableItem clickable = ClickableItem.empty(item);
 
