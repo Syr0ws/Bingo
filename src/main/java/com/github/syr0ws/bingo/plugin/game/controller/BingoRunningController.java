@@ -8,6 +8,7 @@ import com.github.syr0ws.bingo.api.game.model.GridLine;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageData;
 import com.github.syr0ws.bingo.api.message.MessageType;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import com.github.syr0ws.bingo.plugin.game.listener.GameRunningListener;
 import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
@@ -26,7 +27,7 @@ public class BingoRunningController extends AbstractGameController {
 
     private Task task;
 
-    public BingoRunningController(Plugin plugin, Game game) {
+    public BingoRunningController(MiniGamePlugin plugin, Game game) {
         super(plugin, game);
     }
 

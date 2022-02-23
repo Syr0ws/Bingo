@@ -5,6 +5,7 @@ import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GameState;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageType;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import com.github.syr0ws.bingo.plugin.game.listener.GameTeleportingListener;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
@@ -19,7 +20,7 @@ public class BingoTeleportingController extends AbstractGameController {
 
     private Task task;
 
-    public BingoTeleportingController(Plugin plugin, Game game) {
+    public BingoTeleportingController(MiniGamePlugin plugin, Game game) {
         super(plugin, game);
     }
 

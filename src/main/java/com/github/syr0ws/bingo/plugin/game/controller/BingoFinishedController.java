@@ -4,6 +4,7 @@ import com.github.syr0ws.bingo.api.game.Game;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GameState;
 import com.github.syr0ws.bingo.api.message.Message;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import com.github.syr0ws.bingo.plugin.controller.AbstractGameController;
 import com.github.syr0ws.bingo.plugin.tool.Task;
 import com.github.syr0ws.bingo.plugin.tool.Text;
@@ -13,7 +14,7 @@ public class BingoFinishedController extends AbstractGameController {
 
     private Task task;
 
-    public BingoFinishedController(Plugin plugin, Game game) {
+    public BingoFinishedController(MiniGamePlugin plugin, Game game) {
         super(plugin, game);
     }
 
