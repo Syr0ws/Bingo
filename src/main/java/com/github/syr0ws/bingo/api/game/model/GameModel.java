@@ -14,6 +14,10 @@ public interface GameModel extends Observable {
 
     boolean checkWinConditions();
 
+    GameState getState();
+
+    void setState(GameState state);
+
     void setStarting(boolean starting);
 
     boolean isStarting();

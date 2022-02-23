@@ -20,6 +20,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
     private int time;
     private boolean starting;
+    private GameState state;
 
     private final GameGrid grid;
     private final GameSettings settings;
@@ -107,6 +108,28 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
     @Override
     public boolean checkWinConditions() {
         return this.data.keySet().stream().anyMatch(this::hasWin);
+    }
+
+    @Override
+    public GameState getState() {
+        return this.state;
+    }
+
+    @Override
+    public void setState(GameState state) {
+
+        if(state == null)
+            throw new IllegalArgumentException("GameState cannot be null.");
+
+        if(state == this.state)
+            return;
+
+        if(state.ordinal() < this.state.ordinal())
+            throw new IllegalArgumentException("Cannot set previous state.");
+
+        this.state = state;
+
+        GameMessageUtil.sendSimpleMessage(this, GameMessageType.GAME_STATE_CHANGE, GameMessageKey.GAME_STATE, GameState.class, this.state);
     }
 
     @Override

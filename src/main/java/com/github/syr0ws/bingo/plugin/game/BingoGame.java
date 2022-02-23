@@ -7,6 +7,7 @@ import com.github.syr0ws.bingo.api.game.model.GameGridGenerator;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GameState;
 import com.github.syr0ws.bingo.api.message.Message;
+import com.github.syr0ws.bingo.api.message.MessageData;
 import com.github.syr0ws.bingo.api.message.MessageType;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
 import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
@@ -49,8 +50,18 @@ public class BingoGame extends AbstractObservable implements Game {
     public void onMessageReceiving(Message message) {
 
         MessageType type = message.getType();
+        MessageData data = message.getData();
 
-        if(type == GameMessageType.CONTROLLER_DONE) this.setNextState();
+        if(type == GameMessageType.CONTROLLER_DONE) {
+
+            this.setNextState();
+
+        } else if(type == GameMessageType.GAME_STATE_CHANGE) {
+
+            GameState state = data.get(GameMessageKey.GAME_STATE.getKey(), GameState.class);
+
+            if(state != this.controller.getState()) this.changeState(state);
+        }
     }
 
     @Override
@@ -85,8 +96,11 @@ public class BingoGame extends AbstractObservable implements Game {
     }
 
     private void setupController(GameState state) {
+
         this.controller = BingoGameControllerFactory.getController(this, state);
         this.controller.load();
+
+        this.model.setState(state);
         this.model.addObserver(this.controller);
     }
 
@@ -108,20 +122,24 @@ public class BingoGame extends AbstractObservable implements Game {
         GameState current = this.controller.getState();
         Optional<GameState> optional =  GameState.getNext(current);
 
-        // Unloading controller.
-        this.unloadController();
-
         if(optional.isPresent()) {
 
-            GameState next = optional.get();
-
-            // Setting up controller for the new state.
-            this.setupController(next);
+            GameState state = optional.get();
+            this.changeState(state);
 
         } else {
 
             GameMessageUtil.sendSimpleMessage(this, GameMessageType.GAME_FINISHED, GameMessageKey.GAME, Game.class, this);
         }
+    }
+
+    private void changeState(GameState state) {
+
+        // Unloading controller.
+        this.unloadController();
+
+        // Setting up controller for the new state.
+        this.setupController(state);
     }
 
     private void unloadController() {
