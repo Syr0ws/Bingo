@@ -238,7 +238,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
         // Retrieving players with number of items found equals to max.
         this.data.entrySet().stream()
-                .filter(data -> data.getValue().grid().countItems() == max)
+                .filter(data -> data.getValue().grid().countFoundItems() == max)
                 .forEach(data -> map.put(data.getValue().player(), max));
 
         return map;
