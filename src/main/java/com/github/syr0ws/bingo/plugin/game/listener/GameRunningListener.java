@@ -98,7 +98,7 @@ public class GameRunningListener implements Listener {
 
         int radius = setting.getValue();
 
-        Location location = LocationUtil.findRandomLocation(player.getWorld(), radius);
+        Location location = LocationUtil.findRandomSafeLocation(player.getWorld(), radius);
 
         event.setRespawnLocation(location);
     }

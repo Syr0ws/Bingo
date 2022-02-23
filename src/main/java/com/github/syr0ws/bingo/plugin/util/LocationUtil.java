@@ -56,7 +56,7 @@ public class LocationUtil {
         }
     }
 
-    public static Location findRandomLocation(World world, int radius) {
+    public static Location findRandomSafeLocation(World world, int radius) {
 
         Random random = new Random();
 
