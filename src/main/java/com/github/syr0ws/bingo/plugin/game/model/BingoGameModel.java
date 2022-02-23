@@ -84,10 +84,10 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
         GamePlayerGrid grid = this.grids.get(uuid);
 
-        int size = grid.getSize();
+        int items = this.grid.countItems();
         int found = grid.countFoundItems();
 
-        return size == found;
+        return items == found;
     }
 
     @Override
