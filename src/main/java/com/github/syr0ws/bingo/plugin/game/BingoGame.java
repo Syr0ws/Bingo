@@ -125,6 +125,9 @@ public class BingoGame extends AbstractObservable implements Game {
     }
 
     private void unloadController() {
+
+        if(this.controller == null || !this.controller.isLoaded()) return;
+
         this.controller.unload();
         this.controller = null; // Avoid reuse.
     }
