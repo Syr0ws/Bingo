@@ -9,6 +9,8 @@ public interface GameSettings {
 
     MutableSetting<Integer> getMaxGameDurationSetting();
 
+    MutableSetting<Integer> getInvincibilityDurationSetting();
+
     MutableSetting<Integer> getMinPlayerSetting();
 
     MutableSetting<Location> getGameSpawnSetting();

@@ -45,6 +45,11 @@ public class BingoSettings implements GameSettings {
     }
 
     @Override
+    public MutableSetting<Integer> getInvincibilityDurationSetting() {
+        return this.manager.getGenericSetting(BingoSettingEnum.INVINCIBILITY_DURATION, Integer.class);
+    }
+
+    @Override
     public MutableSetting<Integer> getMinPlayerSetting() {
         return this.manager.getGenericSetting(BingoSettingEnum.MIN_PLAYERS, Integer.class);
     }

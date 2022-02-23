@@ -33,6 +33,16 @@ public enum BingoSettingEnum implements SettingType {
         }
     },
 
+    INVINCIBILITY_DURATION {
+        @Override
+        public Setting<?> getSetting() {
+            return new SimpleConfigSetting
+                    .Builder<>("invincibilityDuration", 15, "invincibility-duration", Integer.class)
+                    .withFilter(value -> value >= 0)
+                    .build();
+        }
+    },
+
     GAME_SPAWN {
         @Override
         public Setting<?> getSetting() {
