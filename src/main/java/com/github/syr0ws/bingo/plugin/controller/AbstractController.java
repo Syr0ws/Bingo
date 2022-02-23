@@ -44,4 +44,8 @@ public abstract class AbstractController implements Controller {
     public MiniGamePlugin getPlugin() {
         return this.plugin;
     }
+
+    public boolean isLoaded() {
+        return this.loaded;
+    }
 }
