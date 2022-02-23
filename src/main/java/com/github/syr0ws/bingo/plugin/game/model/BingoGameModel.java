@@ -20,10 +20,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
     private boolean starting;
 
     private final GameGrid grid;
-
-    // Using maps for better performances when retrieving data.
-    private final Map<UUID, GamePlayer> players = new HashMap<>();
-    private final Map<UUID, GamePlayerGrid> grids = new HashMap<>();
+    private final Map<UUID, PlayerData> data = new HashMap<>();
 
     public BingoGameModel(GameGrid grid) {
 
@@ -52,19 +49,23 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
         int[] coordinates = this.grid.getCoordinates(material);
         int row = coordinates[0], column = coordinates[1];
 
-        GamePlayer gamePlayer = this.players.get(uuid);
-        GamePlayerGrid grid = this.grids.get(uuid);
+        PlayerData data = this.data.get(uuid);
+
+        GamePlayer gamePlayer = data.player();
+        GamePlayerGrid grid = data.grid();
 
         // Checking if the item has been already found.
         if(grid.isItemFound(row, column)) return false;
 
         Set<GridLine> lines = grid.addFoundItem(row, column);
+        int foundItems = grid.countFoundItems();
 
         Message messageItemFound = new GameMessage(GameMessageType.ITEM_FOUND);
         MessageData messageItemFoundData = messageItemFound.getData();
 
         messageItemFoundData.set(GameMessageKey.PLAYER.getKey(), GamePlayer.class, gamePlayer);
         messageItemFoundData.set(GameMessageKey.GRID_LINES.getKey(), Set.class, lines);
+        messageItemFoundData.set(GameMessageKey.ITEMS_FOUND.getKey(), Integer.class, foundItems);
 
         this.sendAll(messageItemFound);
 
@@ -83,7 +84,11 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
     @Override
     public boolean hasWin(UUID uuid) {
 
-        GamePlayerGrid grid = this.grids.get(uuid);
+        if(!this.hasPlayer(uuid))
+            throw new NullPointerException("GamePlayer not found.");
+
+        PlayerData data = this.data.get(uuid);
+        GamePlayerGrid grid = data.grid();
 
         int items = this.grid.countItems();
         int found = grid.countFoundItems();
@@ -93,7 +98,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
     @Override
     public boolean checkWinConditions() {
-        return this.players.keySet().stream().anyMatch(this::hasWin);
+        return this.data.keySet().stream().anyMatch(this::hasWin);
     }
 
     @Override
@@ -126,8 +131,8 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
     @Override
     public Optional<GamePlayerGrid> getPlayerGrid(UUID uuid) {
-        GamePlayerGrid grid = this.grids.getOrDefault(uuid, null);
-        return Optional.ofNullable(grid);
+        PlayerData data = this.data.getOrDefault(uuid, null);
+        return data == null ? Optional.empty() : Optional.of(data.grid());
     }
 
     @Override
@@ -143,8 +148,9 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
         GamePlayerGrid grid = new BingoGamePlayerGrid(this.grid.getSize());
 
-        this.players.put(uuid, player);
-        this.grids.put(uuid, grid);
+        PlayerData data = new PlayerData(player, grid);
+
+        this.data.put(uuid, data);
 
         GameMessageUtil.sendSimpleMessage(this, GameMessageType.ADD_PLAYER, GameMessageKey.PLAYER, GamePlayer.class, player);
     }
@@ -160,38 +166,61 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
         if(!this.hasPlayer(uuid))
             throw new IllegalArgumentException("Player doesn't exist.");
 
-        this.players.remove(uuid);
-        this.grids.remove(uuid);
+        this.data.remove(uuid);
 
         GameMessageUtil.sendSimpleMessage(this, GameMessageType.REMOVE_PLAYER, GameMessageKey.PLAYER, GamePlayer.class, player);
     }
 
     @Override
     public boolean hasPlayer(UUID uuid) {
-        return this.players.containsKey(uuid);
+        return this.data.containsKey(uuid);
     }
 
     @Override
     public Optional<GamePlayer> getPlayer(UUID uuid) {
-        GamePlayer player = this.players.getOrDefault(uuid, null);
-        return Optional.ofNullable(player);
+        PlayerData data = this.data.get(uuid);
+        return data == null ? Optional.empty() : Optional.of(data.player());
     }
 
     @Override
     public List<GamePlayer> getPlayers() {
-        return new ArrayList<>(this.players.values());
+        return this.data.values().stream()
+                .map(PlayerData::player)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<GamePlayer> getPlayersWithMostFoundItems() {
-        return new ArrayList<>();
+    public Map<GamePlayer, Integer> getPlayersWithMostFoundItems() {
+
+        Map<GamePlayer, Integer> map = new HashMap<>();
+
+        // Retrieving max.
+        Optional<Integer> optional = this.data.values().stream()
+                .map(data -> data.grid().countFoundItems())
+                .max(Integer::compare);
+
+        // Max not found. Should not happen.
+        if(optional.isEmpty())
+            return map;
+
+        int max = optional.get();
+
+        // Retrieving players with number of items found equals to max.
+        this.data.entrySet().stream()
+                .filter(data -> data.getValue().grid().countItems() == max)
+                .forEach(data -> map.put(data.getValue().player(), max));
+
+        return map;
     }
 
     @Override
     public List<Player> getOnlinePlayers() {
-        return this.players.values().stream()
+        return this.data.values().stream()
+                .map(PlayerData::player)
                 .filter(GamePlayer::isOnline)
                 .map(GamePlayer::getPlayer)
                 .collect(Collectors.toList());
     }
+
+    private record PlayerData(GamePlayer player, GamePlayerGrid grid) {}
 }

@@ -4,10 +4,7 @@ import com.github.syr0ws.bingo.api.message.Observable;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public interface GameModel extends Observable {
 
@@ -39,7 +36,7 @@ public interface GameModel extends Observable {
 
     List<GamePlayer> getPlayers();
 
-    List<GamePlayer> getPlayersWithMostFoundItems();
+    Map<GamePlayer, Integer> getPlayersWithMostFoundItems();
 
     List<Player> getOnlinePlayers();
 }
