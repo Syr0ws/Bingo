@@ -10,7 +10,6 @@ import com.github.syr0ws.bingo.plugin.util.TextUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -77,6 +76,7 @@ public class CommandBingo implements CommandExecutor {
         MiniGameModel model = this.plugin.getModel();
         Optional<Game> optional = model.getGame(player.getUniqueId());
 
+        // Checking if the player is in a game.
         if(optional.isEmpty()) {
             this.sendMessage(player, Message.NOT_IN_GAME);
             return;
@@ -159,11 +159,6 @@ public class CommandBingo implements CommandExecutor {
         FileConfiguration config = this.plugin.getConfig();
         String text = config.getString(message.getPath(), "");
         TextUtil.sendMessage(player, text);
-    }
-
-    private ConfigurationSection getCommandSection() {
-        FileConfiguration config = this.plugin.getConfig();
-        return config.getConfigurationSection("bingo-command");
     }
 
     private enum Message {
