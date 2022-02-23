@@ -12,6 +12,8 @@ command-bingo:
   not-in-game: "&c>> You're not in a running game."
   # Message sent when the player is trying to do an action possible only if the game is started.
   game-not-started: "&c>> Game not started."
+  # Message sent when the game cannot be started.
+  cannot-start-game: "&c>> The game cannot be started (no enough players)."
   # Command '/bingo'.
   grid:
     # Message sent when the bingo grid is opened.

@@ -1,6 +1,7 @@
 package com.github.syr0ws.bingo.plugin.minigame.controller;
 
 import com.github.syr0ws.bingo.api.game.Game;
+import com.github.syr0ws.bingo.api.game.exception.GameException;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageData;
@@ -8,6 +9,8 @@ import com.github.syr0ws.bingo.api.message.MessageType;
 import com.github.syr0ws.bingo.api.minigame.MiniGameController;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
 import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
+import com.github.syr0ws.bingo.api.settings.GameSettings;
+import com.github.syr0ws.bingo.api.settings.MutableSetting;
 import com.github.syr0ws.bingo.plugin.controller.AbstractController;
 import com.github.syr0ws.bingo.plugin.game.BingoGame;
 import com.github.syr0ws.bingo.plugin.message.GameMessage;
@@ -51,7 +54,15 @@ public class BingoMiniGameController extends AbstractController implements MiniG
     }
 
     @Override
-    public void onGameStart(Game game) {
+    public void onGameStart(Game game) throws GameException {
+
+        GameSettings settings = this.model.getSettings();
+        MutableSetting<Integer> setting = settings.getMinPlayerSetting();
+
+        int players = game.getModel().getPlayers().size();
+
+        if(players < setting.getValue())
+            throw new GameException("No enough players to start the game.");
 
         this.model.addGame(game);
 
@@ -82,7 +93,10 @@ public class BingoMiniGameController extends AbstractController implements MiniG
         if(type == GameMessageType.GAME_STARTED) {
 
             Game game = data.get(GameMessageKey.GAME.getKey(), Game.class);
-            this.onGameStart(game); // Starting the game.
+
+            // Starting the game.
+            try { this.onGameStart(game);
+            } catch (GameException e) { e.printStackTrace(); }
 
         } else if(type == GameMessageType.GAME_FINISHED) {
 

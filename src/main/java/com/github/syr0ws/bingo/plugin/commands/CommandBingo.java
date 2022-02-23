@@ -1,6 +1,7 @@
 package com.github.syr0ws.bingo.plugin.commands;
 
 import com.github.syr0ws.bingo.api.game.Game;
+import com.github.syr0ws.bingo.api.game.exception.GameException;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.inventory.GameInventoryOpener;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
@@ -115,7 +116,8 @@ public class CommandBingo implements CommandExecutor {
         }
 
         // Starting the game.
-        this.plugin.getController().onGameStart(game);
+        try { this.plugin.getController().onGameStart(game);
+        } catch (GameException ignored) { this.sendMessage(player, Message.CANNOT_START_GAME); }
 
         // Sending a message.
         this.sendMessage(player, Message.GAME_STARTING);
@@ -167,6 +169,7 @@ public class CommandBingo implements CommandExecutor {
         NO_WAITING_GAME("no-waiting-game"),
         NOT_IN_GAME("not-in-game"),
         INVALID_GAME("invalid-game"),
+        CANNOT_START_GAME("cannot-start-game"),
 
         ALREADY_STARTED("start.already-started"),
         GAME_STARTING("start.starting"),
