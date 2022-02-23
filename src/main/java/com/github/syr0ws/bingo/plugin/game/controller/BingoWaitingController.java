@@ -39,7 +39,7 @@ public class BingoWaitingController extends AbstractGameController {
 
         GameModel model = super.getGame().getModel();
 
-        manager.registerListener(new GameWaitingListener(model));
+        manager.registerListener(new GameWaitingListener(super.getPlugin(), model));
     }
 
     @Override
