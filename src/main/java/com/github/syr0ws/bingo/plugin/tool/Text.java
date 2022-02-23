@@ -12,7 +12,7 @@ public enum Text {
     COLUMN_COMPLETE("&6%s &ecompleted a column ! &6(%d/%d)"),
     DIAGONAL_COMPLETE("&6%s &ecompleted a diagonal ! &6(%d/%d)"),
     PLAYER_BINGO_COMPLETE("&6%s &ecompleted his bingo grid !"),
-    PLAYER_WIN("&6%s &ewins the game !"),
+    PLAYER_WIN("&6%s &ewon the game !"),
     GAME_TIME_LEFT_MINUTE("&eThere are &6%d minute%s &eleft to complete your bingo."),
     GAME_TIME_LEFT_SECOND("&eThere are &6%d second%s &eleft to complete your bingo."),
     RESTART("&cThe server is restarting. Please reconnect."),
