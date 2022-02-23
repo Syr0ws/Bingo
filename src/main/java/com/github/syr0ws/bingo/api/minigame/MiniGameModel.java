@@ -1,12 +1,15 @@
 package com.github.syr0ws.bingo.api.minigame;
 
 import com.github.syr0ws.bingo.api.game.Game;
+import com.github.syr0ws.bingo.api.settings.GameSettings;
 
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface MiniGameModel {
+
+    GameSettings getSettings();
 
     void setWaitingGame(Game game);
 

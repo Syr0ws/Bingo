@@ -2,13 +2,28 @@ package com.github.syr0ws.bingo.plugin.minigame.model;
 
 import com.github.syr0ws.bingo.api.game.Game;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
+import com.github.syr0ws.bingo.api.settings.GameSettings;
 
 import java.util.*;
 
 public class BingoMiniGameModel implements MiniGameModel {
 
     private Game game;
+    private final GameSettings settings;
     private final List<Game> games = new ArrayList<>();
+
+    public BingoMiniGameModel(GameSettings settings) {
+
+        if(settings == null)
+            throw new IllegalArgumentException("GameSettings cannot be null.");
+
+        this.settings = settings;
+    }
+
+    @Override
+    public GameSettings getSettings() {
+        return this.settings;
+    }
 
     @Override
     public void setWaitingGame(Game game) {
