@@ -22,7 +22,6 @@ public class MaterialSetting extends ConfigSetting<List<Material>>  {
         List<Material> materials = list.stream()
                 .map(Material::matchMaterial)
                 .filter(Objects::nonNull)
-                .filter(Material::isBlock)
                 .collect(Collectors.toList());
 
         super.setValue(materials);
