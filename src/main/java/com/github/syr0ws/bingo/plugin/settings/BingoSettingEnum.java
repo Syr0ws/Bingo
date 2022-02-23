@@ -23,6 +23,16 @@ public enum BingoSettingEnum implements SettingType {
         }
     },
 
+    STARTING_DURATION {
+        @Override
+        public Setting<?> getSetting() {
+            return new SimpleConfigSetting
+                    .Builder<>("startingDuration", 150, "starting-duration", Integer.class)
+                    .withFilter(value -> value > 10)
+                    .build();
+        }
+    },
+
     MAX_GAME_DURATION {
         @Override
         public Setting<?> getSetting() {
@@ -49,6 +59,16 @@ public enum BingoSettingEnum implements SettingType {
             return new LocationSetting
                     .Builder("gameSpawn", new Location(Bukkit.getWorld("world"), 0, 60, 0), "spawn")
                     .withFilter(location -> location.getWorld() != null)
+                    .build();
+        }
+    },
+
+    TELEPORTATION_RADIUS {
+        @Override
+        public Setting<?> getSetting() {
+            return new SimpleConfigSetting
+                    .Builder<>("teleportationRadius", 150, "teleportation-radius", Integer.class)
+                    .withFilter(value -> value > 10)
                     .build();
         }
     },
