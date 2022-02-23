@@ -10,5 +10,7 @@ public interface GamePlayerGrid {
 
     int countFoundItems();
 
+    int countItems();
+
     int getSize();
 }

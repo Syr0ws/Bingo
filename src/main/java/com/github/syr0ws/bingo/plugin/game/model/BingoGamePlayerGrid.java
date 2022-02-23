@@ -65,6 +65,12 @@ public class BingoGamePlayerGrid implements GamePlayerGrid {
     }
 
     @Override
+    public int countItems() {
+        int size = this.getSize();
+        return size * size;
+    }
+
+    @Override
     public int getSize() {
         return this.grid[0].length;
     }
