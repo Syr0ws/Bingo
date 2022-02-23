@@ -51,7 +51,7 @@ public class BingoRunningController extends AbstractGameController {
 
         GameModel model = super.getGame().getModel();
 
-        manager.registerListener(new GameRunningListener(model));
+        manager.registerListener(new GameRunningListener(super.getPlugin(), model));
     }
 
     @Override
