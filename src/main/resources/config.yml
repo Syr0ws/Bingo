@@ -43,7 +43,7 @@ command-bingo:
 min-players: 2
 
 # The duration in seconds before starting a game.
-starting-duration: 10
+starting-duration: 3
 
 # The maximum duration in seconds of a game.
 max-game-duration: 300
