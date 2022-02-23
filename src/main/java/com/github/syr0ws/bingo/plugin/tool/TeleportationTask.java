@@ -5,6 +5,7 @@ import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.Observer;
 import com.github.syr0ws.bingo.plugin.message.GameMessage;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
+import com.github.syr0ws.bingo.plugin.util.LocationUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -77,6 +78,12 @@ public class TeleportationTask extends Task {
         int y = this.world.getHighestBlockYAt((int) x, (int) z);
 
         Location location = new Location(this.world, x, y, z);
+
+        // If the location isn't safe, modifying coordinates.
+        LocationUtils.findNearestSafePlace(location);
+
+        // We retrieved the highest block. This is to teleport players above it.
+        location.setY(location.getY() + 1);
 
         player.teleport(location);
 
