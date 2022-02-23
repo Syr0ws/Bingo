@@ -55,10 +55,6 @@ public class BingoFinishedController extends AbstractGameController {
     }
 
     private void onGameFinish() {
-
-        GameModel model = super.getGame().getModel();
-        model.getOnlinePlayers().forEach(player -> player.kickPlayer(Text.GAME_FINISHED.get()));
-
         super.sendDoneMessage();
     }
 
