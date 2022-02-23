@@ -15,6 +15,8 @@ public abstract class AbstractObservable implements Observable {
 
     @Override
     public void sendAll(Message message) {
+        // Using a copy to avoid ConcurrentModificationException because observers
+        // can be removed because of a message.
         new ArrayList<>(this.observers).forEach(observer -> observer.onMessageReceiving(message));
     }
 

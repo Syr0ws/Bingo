@@ -21,10 +21,10 @@ public enum Text {
     private final String text;
 
     Text(String text) {
-        this.text = text;
+        this.text = TextUtil.parseColors(text);
     }
 
     public String get() {
-        return TextUtil.parseColors(this.text);
+        return this.text;
     }
 }

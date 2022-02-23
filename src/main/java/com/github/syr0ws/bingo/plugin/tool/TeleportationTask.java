@@ -20,6 +20,7 @@ public class TeleportationTask extends Task {
     private final List<GamePlayer> players;
     private final double delta;
     private final Observer observer;
+
     private double angle;
     private int index;
 
@@ -30,7 +31,7 @@ public class TeleportationTask extends Task {
             throw new IllegalArgumentException("Observer cannot be null.");
 
         if(players == null)
-            throw new IllegalArgumentException("List<GamePlayer> cannot be null.");
+            throw new IllegalArgumentException("List cannot be null.");
 
         if(world == null)
             throw new IllegalArgumentException("GamePlayer cannot be null.");
@@ -57,6 +58,7 @@ public class TeleportationTask extends Task {
 
         if(this.index < this.players.size()) {
 
+            // Finding a player and teleporting him.
             GamePlayer gamePlayer = this.players.get(this.index);
             Player player = gamePlayer.getPlayer();
 
@@ -66,6 +68,7 @@ public class TeleportationTask extends Task {
 
         } else {
 
+            // All players have been teleported.
             Message message = new GameMessage(GameMessageType.TELEPORTATION_FINISHED);
             this.observer.onMessageReceiving(message);
         }
@@ -82,7 +85,7 @@ public class TeleportationTask extends Task {
         // If the location isn't safe, modifying coordinates.
         LocationUtil.findNearestSafePlace(location);
 
-        // We retrieved the highest block. This is to teleport players above it.
+        // We retrieved the highest block. This is to teleport the player above it.
         location.setY(location.getY() + 1);
 
         player.teleport(location);
