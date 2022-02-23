@@ -45,11 +45,14 @@ min-players: 2
 # The maximum duration of a game.
 max-game-duration: 300
 
+# The invincibility duration when a game is started.
+invincibility-duration: 15
+
 # The spawn of the game when it is waiting.
 spawn:
-  x: 0
-  y: 80
-  z: 0
+  x: 0.5
+  y: 109
+  z: 0.5
   yaw: 180
   pitch: 0
   world: "world"
