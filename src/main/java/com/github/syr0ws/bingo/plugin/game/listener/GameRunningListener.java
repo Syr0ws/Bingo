@@ -82,8 +82,6 @@ public class GameRunningListener implements Listener {
         if(!this.model.getGrid().contains(material))
             return false;
 
-        this.model.setFoundItem(uuid, material);
-
-        return true;
+        return this.model.setFoundItem(uuid, material);
     }
 }

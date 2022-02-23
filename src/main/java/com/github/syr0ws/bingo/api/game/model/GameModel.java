@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface GameModel extends Observable {
 
-    void setFoundItem(UUID uuid, Material material);
+    boolean setFoundItem(UUID uuid, Material material);
 
     boolean hasWin(UUID uuid);
 

@@ -35,7 +35,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
     }
 
     @Override
-    public void setFoundItem(UUID uuid, Material material) {
+    public boolean setFoundItem(UUID uuid, Material material) {
 
         if(uuid == null)
             throw new IllegalArgumentException("UUID cannot be null.");
@@ -56,7 +56,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
         GamePlayerGrid grid = this.grids.get(uuid);
 
         // Checking if the item has been already found.
-        if(grid.isItemFound(row, column)) return;
+        if(grid.isItemFound(row, column)) return false;
 
         Set<GridLine> lines = grid.addFoundItem(row, column);
 
@@ -77,6 +77,7 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
             this.sendAll(messageWin);
         }
+        return true;
     }
 
     @Override
