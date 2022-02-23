@@ -8,7 +8,10 @@ import com.github.syr0ws.bingo.api.game.model.GridLine;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageData;
 import com.github.syr0ws.bingo.api.message.MessageType;
+import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
 import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
+import com.github.syr0ws.bingo.api.settings.GameSettings;
+import com.github.syr0ws.bingo.api.settings.MutableSetting;
 import com.github.syr0ws.bingo.plugin.game.listener.GameRunningListener;
 import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
@@ -73,7 +76,15 @@ public class BingoRunningController extends AbstractGameController {
     }
 
     private void startRunningTask() {
-        this.task = new RunningTask(super.getPlugin());
+
+        MiniGamePlugin plugin = super.getPlugin();
+
+        MiniGameModel miniGameModel = plugin.getModel();
+        GameSettings settings = miniGameModel.getSettings();
+
+        MutableSetting<Integer> setting = settings.getMaxGameDurationSetting();
+
+        this.task = new RunningTask(plugin, setting.getValue());
         this.task.start();
     }
 
@@ -161,8 +172,15 @@ public class BingoRunningController extends AbstractGameController {
 
     private class RunningTask extends Task {
 
-        public RunningTask(Plugin plugin) {
+        private final int duration;
+
+        public RunningTask(Plugin plugin, int duration) {
             super(plugin);
+
+            if(duration <= 0)
+                throw new IllegalArgumentException("Duration must be positive.");
+
+            this.duration = duration;
         }
 
         @Override
@@ -206,10 +224,6 @@ public class BingoRunningController extends AbstractGameController {
                 case 299:
                     message = String.format(Text.GAME_TIME_LEFT_SECOND.get(), 1, "");
                     break;
-                case 300:
-                    this.cancel();
-                    BingoRunningController.this.handleWin();
-                    return;
             }
 
             if(message != null) {
@@ -217,7 +231,12 @@ public class BingoRunningController extends AbstractGameController {
                 model.getOnlinePlayers().forEach(player -> player.sendMessage(finalMessage));
             }
 
-            model.addTime();
+            if(model.getTime() == this.duration) {
+
+                this.cancel();
+                BingoRunningController.this.handleWin();
+
+            } else model.addTime();
         }
     }
 }
