@@ -23,7 +23,7 @@ public class BingoMiniGameController extends AbstractController implements MiniG
 
     private final MiniGameModel model;
 
-    public BingoMiniGameController(Plugin plugin, MiniGameModel model) {
+    public BingoMiniGameController(MiniGamePlugin plugin, MiniGameModel model) {
         super(plugin);
 
         if(model == null)

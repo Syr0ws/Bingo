@@ -1,16 +1,16 @@
 package com.github.syr0ws.bingo.plugin.controller;
 
 import com.github.syr0ws.bingo.api.game.controller.Controller;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
-import org.bukkit.plugin.Plugin;
 
 public abstract class AbstractController implements Controller {
 
-    private final Plugin plugin;
+    private final MiniGamePlugin plugin;
     private final ListenerManager manager;
     private boolean loaded;
 
-    public AbstractController(Plugin plugin) {
+    public AbstractController(MiniGamePlugin plugin) {
 
         if(plugin == null)
             throw new IllegalArgumentException("Plugin cannot be null.");
@@ -41,7 +41,7 @@ public abstract class AbstractController implements Controller {
 
     public void registerListeners(ListenerManager manager) {}
 
-    public Plugin getPlugin() {
+    public MiniGamePlugin getPlugin() {
         return this.plugin;
     }
 }

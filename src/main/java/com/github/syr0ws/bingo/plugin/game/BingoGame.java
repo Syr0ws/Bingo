@@ -8,6 +8,10 @@ import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GameState;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageType;
+import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
+import com.github.syr0ws.bingo.api.settings.GameSettings;
+import com.github.syr0ws.bingo.api.settings.MutableSetting;
 import com.github.syr0ws.bingo.plugin.game.controller.BingoGameControllerFactory;
 import com.github.syr0ws.bingo.plugin.game.model.BingoGameModel;
 import com.github.syr0ws.bingo.plugin.game.model.DefaultGameGridGenerator;
@@ -15,22 +19,24 @@ import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.message.GameMessageUtil;
 import com.github.syr0ws.bingo.plugin.tool.AbstractObservable;
+import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class BingoGame extends AbstractObservable implements Game {
 
     private final String id;
-    private final Plugin plugin;
+    private final MiniGamePlugin plugin;
     private GameModel model;
     private GameController controller;
 
-    public BingoGame(Plugin plugin, String id) {
+    public BingoGame(MiniGamePlugin plugin, String id) {
 
         if(plugin == null)
-            throw new IllegalArgumentException("Plugin cannot be null.");
+            throw new IllegalArgumentException("MiniGamePlugin cannot be null.");
 
         if(id == null || id.isEmpty())
             throw new IllegalArgumentException("Id cannot be null or empty.");
@@ -74,7 +80,7 @@ public class BingoGame extends AbstractObservable implements Game {
     }
 
     @Override
-    public Plugin getPlugin() {
+    public MiniGamePlugin getPlugin() {
         return this.plugin;
     }
 
@@ -86,8 +92,13 @@ public class BingoGame extends AbstractObservable implements Game {
 
     private void setupModel() {
 
+        MiniGameModel model = this.plugin.getModel();
+        GameSettings settings = model.getSettings();
+
+        MutableSetting<List<Material>> setting = settings.getBannedItems();
+
         GameGridGenerator generator = new DefaultGameGridGenerator();
-        GameGrid gameGrid = generator.generate(2, new ArrayList<>()); // TODO To change.
+        GameGrid gameGrid = generator.generate(2, setting.getValue());
 
         this.model = new BingoGameModel(gameGrid);
     }
