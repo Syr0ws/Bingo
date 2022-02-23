@@ -52,6 +52,7 @@ spawn:
   z: 0
   yaw: 180
   pitch: 0
+  world: "world"
 
 # The items which cannot be used in a bingo grid.
 banned-items:
