@@ -6,7 +6,7 @@
 
     <groupId>com.github.syr0ws</groupId>
     <artifactId>Bingo</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -42,7 +42,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>E:\Serveurs\Spigot-1.18\plugins</outputDirectory>
+                    <outputDirectory>E:\Serveurs\Spigot-1.17\plugins</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>
