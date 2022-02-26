@@ -226,20 +226,32 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
         Map<GamePlayer, Integer> map = new HashMap<>();
 
         // Retrieving max.
-        Optional<Integer> optional = this.data.values().stream()
-                .map(data -> data.grid().countFoundItems())
-                .max(Integer::compare);
+        int completedLines = this.data.values().stream()
+                .map(data -> data.grid().countCompletedLines())
+                .max(Integer::compare).orElse(0);
 
-        // Max not found. Should not happen.
-        if(optional.isEmpty())
-            return map;
+        System.out.println(completedLines);
 
-        int max = optional.get();
-
-        // Retrieving players with number of items found equals to max.
+        // Retrieving players with number of completed lines equals to completedLines.
         this.data.entrySet().stream()
-                .filter(data -> data.getValue().grid().countFoundItems() == max)
-                .forEach(data -> map.put(data.getValue().player(), max));
+                .filter(data -> data.getValue().grid().countCompletedLines() == completedLines)
+                .forEach(data -> map.put(data.getValue().player(), data.getValue().grid().countFoundItems()));
+
+        if(map.size() > 1) {
+
+            int maxFoundItems = map.values().stream()
+                    .max(Integer::compare).orElse(0);
+
+            System.out.println(maxFoundItems);
+
+            Map<GamePlayer, Integer> map2 = new HashMap<>();
+
+            map.entrySet().stream()
+                    .filter(data -> data.getValue() == maxFoundItems)
+                    .forEach(data -> map2.put(data.getKey(), data.getValue()));
+
+            return map2;
+        }
 
         return map;
     }
