@@ -4,6 +4,7 @@ import com.github.syr0ws.bingo.api.game.controller.GameController;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.message.Observable;
 import com.github.syr0ws.bingo.api.message.Observer;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import org.bukkit.plugin.Plugin;
 
 public interface Game extends Observable, Observer {
@@ -18,5 +19,5 @@ public interface Game extends Observable, Observer {
 
     GameController getController();
 
-    Plugin getPlugin();
+    MiniGamePlugin getPlugin();
 }

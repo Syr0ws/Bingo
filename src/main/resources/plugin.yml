@@ -1,6 +1,7 @@
 name: "BingoPlugin"
 author: "Syrows"
 version: "1.0.0"
+api-version: "1.17"
 main: "com.github.syr0ws.bingo.BingoPlugin"
 commands:
   bingo:

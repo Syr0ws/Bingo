@@ -5,6 +5,7 @@ import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.Observer;
 import com.github.syr0ws.bingo.plugin.message.GameMessage;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
+import com.github.syr0ws.bingo.plugin.util.LocationUtil;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -19,6 +20,7 @@ public class TeleportationTask extends Task {
     private final List<GamePlayer> players;
     private final double delta;
     private final Observer observer;
+
     private double angle;
     private int index;
 
@@ -29,7 +31,7 @@ public class TeleportationTask extends Task {
             throw new IllegalArgumentException("Observer cannot be null.");
 
         if(players == null)
-            throw new IllegalArgumentException("List<GamePlayer> cannot be null.");
+            throw new IllegalArgumentException("List cannot be null.");
 
         if(world == null)
             throw new IllegalArgumentException("GamePlayer cannot be null.");
@@ -56,6 +58,7 @@ public class TeleportationTask extends Task {
 
         if(this.index < this.players.size()) {
 
+            // Finding a player and teleporting him.
             GamePlayer gamePlayer = this.players.get(this.index);
             Player player = gamePlayer.getPlayer();
 
@@ -65,6 +68,7 @@ public class TeleportationTask extends Task {
 
         } else {
 
+            // All players have been teleported.
             Message message = new GameMessage(GameMessageType.TELEPORTATION_FINISHED);
             this.observer.onMessageReceiving(message);
         }
@@ -72,11 +76,17 @@ public class TeleportationTask extends Task {
 
     private void teleport(Player player) {
 
-        int x = (int) (this.radius * Math.cos(this.angle));
-        int z = (int) (this.radius * Math.sin(this.angle));
-        int y = this.world.getHighestBlockYAt(x, z);
+        double x = 0.5 + this.radius * Math.cos(this.angle);
+        double z = 0.5 + this.radius * Math.sin(this.angle);
+        int y = this.world.getHighestBlockYAt((int) x, (int) z);
 
         Location location = new Location(this.world, x, y, z);
+
+        // If the location isn't safe, modifying coordinates.
+        LocationUtil.findNearestSafePlace(location);
+
+        // We retrieved the highest block. This is to teleport the player above it.
+        location.setY(location.getY() + 1);
 
         player.teleport(location);
 

@@ -1,6 +1,7 @@
 package com.github.syr0ws.bingo.plugin.commands;
 
 import com.github.syr0ws.bingo.api.game.Game;
+import com.github.syr0ws.bingo.api.game.exception.GameException;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.inventory.GameInventoryOpener;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
@@ -10,7 +11,6 @@ import com.github.syr0ws.bingo.plugin.util.TextUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -77,6 +77,7 @@ public class CommandBingo implements CommandExecutor {
         MiniGameModel model = this.plugin.getModel();
         Optional<Game> optional = model.getGame(player.getUniqueId());
 
+        // Checking if the player is in a game.
         if(optional.isEmpty()) {
             this.sendMessage(player, Message.NOT_IN_GAME);
             return;
@@ -115,10 +116,12 @@ public class CommandBingo implements CommandExecutor {
         }
 
         // Starting the game.
-        this.plugin.getController().onGameStart(game);
+        try {
 
-        // Sending a message.
-        this.sendMessage(player, Message.GAME_STARTING);
+            this.plugin.getController().onGameStart(game);
+            this.sendMessage(player, Message.GAME_STARTING);
+
+        } catch (GameException ignored) { this.sendMessage(player, Message.CANNOT_START_GAME); }
     }
 
     private void onStopCommand(Player player, String[] args) {
@@ -161,17 +164,13 @@ public class CommandBingo implements CommandExecutor {
         TextUtil.sendMessage(player, text);
     }
 
-    private ConfigurationSection getCommandSection() {
-        FileConfiguration config = this.plugin.getConfig();
-        return config.getConfigurationSection("bingo-command");
-    }
-
     private enum Message {
 
         NO_PERMISSION("no-permission"),
         NO_WAITING_GAME("no-waiting-game"),
         NOT_IN_GAME("not-in-game"),
         INVALID_GAME("invalid-game"),
+        CANNOT_START_GAME("cannot-start-game"),
 
         ALREADY_STARTED("start.already-started"),
         GAME_STARTING("start.starting"),

@@ -14,7 +14,7 @@ public enum GameState {
         GameState[] states = GameState.values();
         int ordinal = state.ordinal();
 
-        GameState next = ordinal + 1 <= states.length ? states[ordinal + 1] : null;
+        GameState next = ordinal + 1 < states.length ? states[ordinal + 1] : null;
 
         return Optional.ofNullable(next);
     }

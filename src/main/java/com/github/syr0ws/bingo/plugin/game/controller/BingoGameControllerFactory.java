@@ -4,13 +4,14 @@ import com.github.syr0ws.bingo.api.game.Game;
 import com.github.syr0ws.bingo.api.game.controller.GameController;
 import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GameState;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import org.bukkit.plugin.Plugin;
 
 public class BingoGameControllerFactory {
 
     public static GameController getController(Game game, GameState state) {
 
-        Plugin plugin = game.getPlugin();
+        MiniGamePlugin plugin = game.getPlugin();
 
         switch (state) {
             case WAITING -> {

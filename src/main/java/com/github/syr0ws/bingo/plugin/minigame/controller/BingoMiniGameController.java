@@ -1,19 +1,24 @@
 package com.github.syr0ws.bingo.plugin.minigame.controller;
 
 import com.github.syr0ws.bingo.api.game.Game;
+import com.github.syr0ws.bingo.api.game.exception.GameException;
+import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageData;
 import com.github.syr0ws.bingo.api.message.MessageType;
 import com.github.syr0ws.bingo.api.minigame.MiniGameController;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
+import com.github.syr0ws.bingo.api.settings.GameSettings;
+import com.github.syr0ws.bingo.api.settings.MutableSetting;
+import com.github.syr0ws.bingo.plugin.controller.AbstractController;
 import com.github.syr0ws.bingo.plugin.game.BingoGame;
 import com.github.syr0ws.bingo.plugin.message.GameMessage;
 import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.minigame.listener.BingoMiniGameListener;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
-import com.github.syr0ws.bingo.plugin.controller.AbstractController;
-import org.bukkit.plugin.Plugin;
+import com.github.syr0ws.bingo.plugin.tool.Text;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -22,7 +27,7 @@ public class BingoMiniGameController extends AbstractController implements MiniG
 
     private final MiniGameModel model;
 
-    public BingoMiniGameController(Plugin plugin, MiniGameModel model) {
+    public BingoMiniGameController(MiniGamePlugin plugin, MiniGameModel model) {
         super(plugin);
 
         if(model == null)
@@ -45,11 +50,19 @@ public class BingoMiniGameController extends AbstractController implements MiniG
 
     @Override
     public void registerListeners(ListenerManager manager) {
-        manager.registerListener(new BingoMiniGameListener(this.model));
+        manager.registerListener(new BingoMiniGameListener(this.getPlugin()));
     }
 
     @Override
-    public void onGameStart(Game game) {
+    public void onGameStart(Game game) throws GameException {
+
+        GameSettings settings = this.model.getSettings();
+        MutableSetting<Integer> setting = settings.getMinPlayerSetting();
+
+        int players = game.getModel().getPlayers().size();
+
+        if(players < setting.getValue())
+            throw new GameException("No enough players to start the game.");
 
         this.model.addGame(game);
 
@@ -61,8 +74,14 @@ public class BingoMiniGameController extends AbstractController implements MiniG
 
     @Override
     public void onGameStop(Game game) {
-        this.model.removeGame(game);
+
+        GameModel model = game.getModel();
+        model.getOnlinePlayers().forEach(player -> player.kickPlayer(Text.GAME_FINISHED.get()));
+
+        game.removeObserver(this);
         game.unload();
+
+        this.model.removeGame(game); // Removing game.
     }
 
     @Override
@@ -74,12 +93,15 @@ public class BingoMiniGameController extends AbstractController implements MiniG
         if(type == GameMessageType.GAME_STARTED) {
 
             Game game = data.get(GameMessageKey.GAME.getKey(), Game.class);
-            this.onGameStart(game);
+
+            // Starting the game.
+            try { this.onGameStart(game);
+            } catch (GameException e) { e.printStackTrace(); }
 
         } else if(type == GameMessageType.GAME_FINISHED) {
 
             Game game = data.get(GameMessageKey.GAME.getKey(), Game.class);
-            this.onGameStop(game);
+            this.onGameStop(game); // Stopping the game.
         }
     }
 
@@ -88,6 +110,8 @@ public class BingoMiniGameController extends AbstractController implements MiniG
         UUID uuid = UUID.randomUUID();
 
         BingoGame game = new BingoGame(super.getPlugin(), uuid.toString());
+
+        game.addObserver(this);
         game.load();
 
         this.model.setWaitingGame(game);

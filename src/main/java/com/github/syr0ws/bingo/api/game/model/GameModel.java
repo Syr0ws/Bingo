@@ -2,17 +2,21 @@ package com.github.syr0ws.bingo.api.game.model;
 
 import com.github.syr0ws.bingo.api.message.Observable;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public interface GameModel extends Observable {
 
-    void setFoundItem(UUID uuid, Material material);
+    boolean setFoundItem(UUID uuid, Material material);
+
+    boolean hasWin(UUID uuid);
 
     boolean checkWinConditions();
+
+    GameState getState();
+
+    void setState(GameState state);
 
     void setStarting(boolean starting);
 
@@ -35,4 +39,8 @@ public interface GameModel extends Observable {
     Optional<GamePlayer> getPlayer(UUID uuid);
 
     List<GamePlayer> getPlayers();
+
+    Map<GamePlayer, Integer> getPlayersWithMostFoundItems();
+
+    List<Player> getOnlinePlayers();
 }

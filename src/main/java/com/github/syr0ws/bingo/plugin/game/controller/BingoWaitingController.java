@@ -5,18 +5,23 @@ import com.github.syr0ws.bingo.api.game.model.GameModel;
 import com.github.syr0ws.bingo.api.game.model.GameState;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageType;
+import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
+import com.github.syr0ws.bingo.api.settings.GameSettings;
+import com.github.syr0ws.bingo.api.settings.MutableSetting;
+import com.github.syr0ws.bingo.plugin.controller.AbstractGameController;
 import com.github.syr0ws.bingo.plugin.game.listener.GameWaitingListener;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
 import com.github.syr0ws.bingo.plugin.tool.ListenerManager;
 import com.github.syr0ws.bingo.plugin.tool.Task;
-import com.github.syr0ws.bingo.plugin.controller.AbstractGameController;
+import com.github.syr0ws.bingo.plugin.tool.Text;
 import org.bukkit.plugin.Plugin;
 
 public class BingoWaitingController extends AbstractGameController {
 
     private Task task;
 
-    public BingoWaitingController(Plugin plugin, Game game) {
+    public BingoWaitingController(MiniGamePlugin plugin, Game game) {
         super(plugin, game);
     }
 
@@ -28,12 +33,7 @@ public class BingoWaitingController extends AbstractGameController {
     @Override
     public void unload() {
         super.unload();
-
-        // Stopping task if it is running.
-        if(this.isStarting()) {
-            this.task.cancel();
-            this.task = null; // Avoid reuse.
-        }
+        this.stopStartingTask();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class BingoWaitingController extends AbstractGameController {
 
         GameModel model = super.getGame().getModel();
 
-        manager.registerListener(new GameWaitingListener(model));
+        manager.registerListener(new GameWaitingListener(super.getPlugin(), model));
     }
 
     @Override
@@ -58,8 +58,23 @@ public class BingoWaitingController extends AbstractGameController {
     }
 
     private void startStartingTask() {
-        this.task = new StartTask(super.getPlugin(), 3);
+
+        MiniGameModel miniGameModel = super.getPlugin().getModel();
+
+        GameSettings settings = miniGameModel.getSettings();
+        MutableSetting<Integer> setting = settings.getStartingDurationSetting();
+
+        this.task = new StartTask(super.getPlugin(), setting.getValue());
         this.task.start();
+    }
+
+    private void stopStartingTask() {
+
+        // Stopping task if it is running.
+        if(this.isStarting()) {
+            this.task.cancel();
+            this.task = null; // Avoid reuse.
+        }
     }
 
     private boolean isStarting() {
@@ -92,8 +107,14 @@ public class BingoWaitingController extends AbstractGameController {
 
             if(this.time != 0) {
 
-                String message = String.format("§eDébut dans §6%d§e.", this.time);
-                model.getPlayers().forEach(gamePlayer -> gamePlayer.getPlayer().sendMessage(message));
+                String message = String.format(Text.GAME_STARTING_IN.get(), this.time);
+
+                model.getOnlinePlayers().forEach(player -> {
+
+                    // Magic values. Can't be changed without an appropriate API.
+                    player.sendTitle(" ", message, 10, 70, 20);
+                    player.sendMessage(message);
+                });
 
                 this.time--;
 
@@ -101,8 +122,14 @@ public class BingoWaitingController extends AbstractGameController {
 
                 this.stop();
 
-                String message = "§6Début de la partie !";
-                model.getPlayers().forEach(gamePlayer -> gamePlayer.getPlayer().sendMessage(message));
+                String message = Text.GAME_STARTED.get();
+
+                model.getOnlinePlayers().forEach(player -> {
+
+                    // Magic values. Can't be changed without an appropriate API.
+                    player.sendTitle(" ", message, 10, 70, 20);
+                    player.sendMessage(message);
+                });
 
                 BingoWaitingController.super.sendDoneMessage();
             }

@@ -4,11 +4,14 @@ import com.github.syr0ws.bingo.api.inventory.GameInventoryOpener;
 import com.github.syr0ws.bingo.api.minigame.MiniGameController;
 import com.github.syr0ws.bingo.api.minigame.MiniGameModel;
 import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
+import com.github.syr0ws.bingo.api.settings.SettingManager;
 import com.github.syr0ws.bingo.plugin.commands.CommandBingo;
 import com.github.syr0ws.bingo.plugin.commands.CommandBingoTabCompleter;
 import com.github.syr0ws.bingo.plugin.inventory.BingoInventoryOpener;
 import com.github.syr0ws.bingo.plugin.minigame.controller.BingoMiniGameController;
 import com.github.syr0ws.bingo.plugin.minigame.model.BingoMiniGameModel;
+import com.github.syr0ws.bingo.plugin.settings.BingoSettings;
+import com.github.syr0ws.bingo.plugin.settings.manager.CacheSettingManager;
 import fr.minuskube.inv.InventoryManager;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,7 +22,6 @@ public class BingoPlugin extends JavaPlugin implements MiniGamePlugin {
 
     private MiniGameModel model;
     private MiniGameController controller;
-    private InventoryManager manager;
     private GameInventoryOpener inventory;
 
     @Override
@@ -49,7 +51,13 @@ public class BingoPlugin extends JavaPlugin implements MiniGamePlugin {
     }
 
     private void setupModel() {
-        this.model = new BingoMiniGameModel();
+
+        SettingManager manager = new CacheSettingManager();
+
+        BingoSettings settings = new BingoSettings(manager);
+        settings.init(super.getConfig());
+
+        this.model = new BingoMiniGameModel(settings);
     }
 
     private void setupController() {
@@ -58,8 +66,11 @@ public class BingoPlugin extends JavaPlugin implements MiniGamePlugin {
     }
 
     private void setupInventoryOpeners() {
-        this.manager = new InventoryManager(this);
-        this.inventory = new BingoInventoryOpener(this.manager);
+
+        InventoryManager manager = new InventoryManager(this);
+        manager.init();
+
+        this.inventory = new BingoInventoryOpener(manager);
     }
 
     @Override

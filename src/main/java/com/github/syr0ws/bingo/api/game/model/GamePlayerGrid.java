@@ -8,7 +8,11 @@ public interface GamePlayerGrid {
 
     boolean isItemFound(int row, int column);
 
+    int countCompletedLines();
+
     int countFoundItems();
+
+    int countItems();
 
     int getSize();
 }

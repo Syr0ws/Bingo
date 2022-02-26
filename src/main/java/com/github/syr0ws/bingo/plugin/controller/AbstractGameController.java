@@ -4,6 +4,7 @@ import com.github.syr0ws.bingo.api.game.Game;
 import com.github.syr0ws.bingo.api.game.controller.GameController;
 import com.github.syr0ws.bingo.api.message.Message;
 import com.github.syr0ws.bingo.api.message.MessageData;
+import com.github.syr0ws.bingo.api.minigame.MiniGamePlugin;
 import com.github.syr0ws.bingo.plugin.message.GameMessage;
 import com.github.syr0ws.bingo.plugin.message.GameMessageKey;
 import com.github.syr0ws.bingo.plugin.message.GameMessageType;
@@ -13,7 +14,7 @@ public abstract class AbstractGameController extends AbstractController implemen
 
     private final Game game;
 
-    public AbstractGameController(Plugin plugin, Game game) {
+    public AbstractGameController(MiniGamePlugin plugin, Game game) {
         super(plugin);
 
         if(game == null)

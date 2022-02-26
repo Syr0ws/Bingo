@@ -9,13 +9,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class AbstractObservable implements Observable {
+public abstract class AbstractObservable implements Observable {
 
     private final List<Observer> observers = new ArrayList<>();
 
     @Override
     public void sendAll(Message message) {
-        this.observers.forEach(observer -> observer.onMessageReceiving(message));
+        // Using a copy to avoid ConcurrentModificationException because observers
+        // can be removed because of a message.
+        new ArrayList<>(this.observers).forEach(observer -> observer.onMessageReceiving(message));
     }
 
     @Override

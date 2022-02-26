@@ -75,4 +75,10 @@ public class BingoGameGrid implements GameGrid {
     public int getSize() {
         return this.grid.length;
     }
+
+    @Override
+    public int countItems() {
+        int size = this.getSize();
+        return size * size;
+    }
 }
