@@ -230,8 +230,6 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
                 .map(data -> data.grid().countCompletedLines())
                 .max(Integer::compare).orElse(0);
 
-        System.out.println(completedLines);
-
         // Retrieving players with number of completed lines equals to completedLines.
         this.data.entrySet().stream()
                 .filter(data -> data.getValue().grid().countCompletedLines() == completedLines)
@@ -241,8 +239,6 @@ public class BingoGameModel extends AbstractObservable implements GameModel {
 
             int maxFoundItems = map.values().stream()
                     .max(Integer::compare).orElse(0);
-
-            System.out.println(maxFoundItems);
 
             Map<GamePlayer, Integer> map2 = new HashMap<>();
 
